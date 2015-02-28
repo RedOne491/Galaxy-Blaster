@@ -677,7 +677,8 @@ FireBall.prototype.update = function () {
     if (distance < 100) {
         this.explosion = true;
         if (this.add1) {
-          this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
+            this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
+            this.game.score += 200;
             this.add1 = false;
         }
     }
@@ -823,7 +824,8 @@ Rocket.prototype.update = function () {
     if (distance < 30) {
         this.explosion = true;  
         if (this.add1) {
-        //    this.game.entities[2].hpBar++;
+            this.game.hp -= 10;//    this.game.entities[2].hpBar++;
+            this.game.score += 200;
             this.add1 = false;
         }
         //this.done = false; 
