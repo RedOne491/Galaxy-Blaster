@@ -1261,3 +1261,83 @@ BossBullet.prototype.draw = function (ctx) {
 
     Entity.prototype.draw.call(this);
 }
+
+
+///
+//4th bacground
+function ScrollBG4(game) {
+    this.animation = new AnimationBG(ASSET_MANAGER.getAsset("./img/bg4.png"), 0, 0, 800, 600, 5, 1, true, true);
+    Entity.call(this, game, 0, -1800);
+}
+
+ScrollBG4.prototype = new Entity();
+ScrollBG4.prototype.constructor = ScrollBG4;
+
+ScrollBG4.prototype.update = function () {
+
+    this.y += 1;
+    if (this.y >= 600) {
+        this.y = -3000;
+    }
+
+    Entity.prototype.update.call(this);
+}
+
+ScrollBG4.prototype.draw = function (ctx) {
+
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+
+    Entity.prototype.draw.call(this);
+}
+
+//5th bacground
+function ScrollBG5(game) {
+    this.animation = new AnimationBG(ASSET_MANAGER.getAsset("./img/bg5.png"), 0, 0, 800, 600, 5, 1, true, true);
+    Entity.call(this, game, 0, -2400);
+}
+
+ScrollBG5.prototype = new Entity();
+ScrollBG5.prototype.constructor = ScrollBG5;
+
+ScrollBG5.prototype.update = function () {
+
+    this.y += 1;
+    if (this.y >= 600) {
+        this.y = -3000;
+    }
+
+    Entity.prototype.update.call(this);
+}
+
+ScrollBG5.prototype.draw = function (ctx) {
+
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+
+    Entity.prototype.draw.call(this);
+}
+
+//6th bacground
+function ScrollBG6(game) {
+    this.animation = new AnimationBG(ASSET_MANAGER.getAsset("./img/bg6.png"), 0, 0, 800, 600, 5, 1, true, true);
+    Entity.call(this, game, 0, -3000);
+}
+
+ScrollBG6.prototype = new Entity();
+ScrollBG6.prototype.constructor = ScrollBG6;
+
+ScrollBG6.prototype.update = function () {
+
+    this.y += 1;
+    if (this.y >= 600) {
+        this.y = -3000;
+    }
+
+    Entity.prototype.update.call(this);
+}
+
+ScrollBG6.prototype.draw = function (ctx) {
+
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+
+    Entity.prototype.draw.call(this);
+}
