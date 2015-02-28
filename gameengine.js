@@ -42,8 +42,10 @@ function GameEngine() {
     this.down = null;
     this.lastKeypressTime = 0;
     this.shoot = null;
+    this.flashShoot = null;
     this.score = 0;
     this.hp = 100;
+    this.spaceBar = false;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -71,11 +73,13 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("keydown", function (e) {
         // if (String.fromCharCode(e.which) === ' ') that.space = true;
         var key = e.keyCode;
-        if (key === 38) that.space = true; 
+        if (key === 32) that.spaceBar = true;
+        if (key === 38) that.space = true;
         if (key === 37) that.left = true; 
         if (key === 39) that.right = true;
         if (key === 40) that.down = true;
-        if (key === 83) {that.shoot = true; that.hp = that.hp -20; that.score+=20;}
+        if (key === 83) that.shoot = true; 
+        if (key === 68) that.flashShoot = true;
         //var key = e.keyCode ? e.keyCode : e.which;
 
 //      console.log(e);
@@ -85,14 +89,17 @@ GameEngine.prototype.startInput = function () {
     this.ctx.canvas.addEventListener("keyup", function (e) {
         // if (String.fromCharCode(e.which) === ' ') that.space = true;
         var key = e.keyCode;
+        if (key === 32) that.spaceBar = false;
         if (key === 38) that.space = false;
         if (key === 37) that.left = false;
         if (key === 39) that.right = false;
         if (key === 40) that.down = false;
         if (key === 83) that.shoot = false;
+        if (key === 68)  that.flashShoot = false;
+        //d--> 68
         //var key = e.keyCode ? e.keyCode : e.which;
 
-        //      console.log(e);
+        console.log(e.keyCode);
         e.preventDefault();
     }, false);
 
@@ -133,9 +140,33 @@ GameEngine.prototype.update = function () {
 }
 
 GameEngine.prototype.loop = function () {
-    this.clockTick = this.timer.tick();
-    this.update();
-    this.draw();
+    if (this.hp > 0 && this.score < 5000) {
+        this.clockTick = this.timer.tick();
+        this.update();
+        this.draw();
+    } else {
+        this.draw();
+        this.ctx.font='bold 100px Arial';
+        this.ctx.fillStyle = "red";
+        this.ctx.fillText("Game Over !", 100,200);
+        this.ctx.font='bold 25px Arial';
+        this.ctx.fillText("press space to start new game!",310,225);
+    }
+    if (this.score >= 5000) {
+        this.draw();
+        this.ctx.font='bold 100px Arial';
+        this.ctx.fillStyle = "red";
+        this.ctx.fillText("Winner", 200,200);
+        this.ctx.font='bold 25px Arial';
+        this.ctx.fillText("Your Score is "+this.score,250,235);
+    }
+    if (this.space) {
+        this.hp = 100;
+        this.score = 0;
+       
+        console.log('game re-initialized');
+    }
+    
    // this.space = null;
     //this.right = null;
    // this.left = null;

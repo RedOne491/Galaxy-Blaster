@@ -40,8 +40,8 @@ Metero.prototype.draw = function (ctx) {
 function SmallMetero(game) {
     this.animation = new RocksAnimation(ASSET_MANAGER.getAsset("./img/meteor_small.png"), 0, 0, 30, 30, .10, 56, true, true);
     this.radius = 30;
-    var newX = Math.random() * 800;
-    var newY = 0;
+    var newX = 800;
+    var newY = Math.random() * 600;
     Entity.call(this, game, newX, newY);
 }
 
@@ -50,17 +50,17 @@ SmallMetero.prototype.constructor = SmallMetero;
 
 SmallMetero.prototype.update = function () {
 
-    this.y += 10;
-
-    if (this.y > 600) {
-	this.x += 100;
-        this.y = 0;
+    this.x -= 3;
+    this.y -= 1;
+    if (this.y < 0) {
+	this.x = 800;
+        this.y = Math.random() * 600;
 
     }
     
-    if (this.x > 800) {
-        this.x = Math.random() * 800;
-        this.y = 0;
+    if (this.x < 0) {
+        this.x = 800;
+        this.y = Math.random() * 600;
     }
     Entity.prototype.update.call(this);
 }
@@ -266,6 +266,7 @@ Score.prototype.draw = function (ctx) {
 
 }
 
+
 // boss
 function Boss(game, type) {
 	this.type = type;
@@ -374,7 +375,7 @@ function MainCraft(game) {
     this.switch = true;
     this.angle = 0;
     this.time = 0;
-    this.alive = true;
+    //this.alive = true;
 
 
     Entity.call(this, game, 350, 500);
@@ -421,15 +422,15 @@ Flash.prototype.update = function () {
         this.reset = 1;
     }
 
-    if (true) {//!this.game.shoot ) {
+    if (!this.game.flashShoot) {//!this.game.shoot ) {
 
         if (this.reset === 1) { // reset or initializing 1st bullet location base on main_craft.
             if (this.type === 1) {
-                this.x = this.game.entities[this.game.entities.length - 2].x - 7;
-                this.y = this.game.entities[this.game.entities.length - 2].y - 5;
+                this.x = this.game.entities[this.game.entities.length - 3].x - 7;
+                this.y = this.game.entities[this.game.entities.length - 3].y - 5;
             } else {
-                this.x = this.game.entities[this.game.entities.length - 2].x + 30;
-                this.y = this.game.entities[this.game.entities.length - 2].y - 5;
+                this.x = this.game.entities[this.game.entities.length - 3].x + 30;
+                this.y = this.game.entities[this.game.entities.length - 3].y - 5;
             }
             this.reset = 0;
         }
@@ -666,8 +667,8 @@ FireBall.prototype.constructor = FireBall;
 FireBall.prototype.update = function () {
 	  
     // impact detection
-    var x = this.x - this.game.entities[this.game.entities.length - 2].x;
-    var y = this.y - this.game.entities[this.game.entities.length - 2].y - 100;
+    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
     var distance = Math.sqrt(x * x + y * y);
    
     // console.log(this.game.clockTick);
@@ -681,7 +682,7 @@ FireBall.prototype.update = function () {
         }
     }
 
-    if (this.explosion)
+    if (this.explosion) 
         this.time += this.game.clockTick;// integer result this.time = 0 when console output;
     // end impact detection
 
@@ -705,12 +706,12 @@ FireBall.prototype.update = function () {
 
         if (!this.locate) {
         	if (this.game.entities[3].alive) {
-	            tempX = this.game.entities[3].x - this.game.entities[this.game.entities.length - 2].x + 140;
-	            tempY = this.game.entities[3].y - this.game.entities[this.game.entities.length - 2].y + 240;
+	            tempX = this.game.entities[3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	            tempY = this.game.entities[3].y - this.game.entities[this.game.entities.length - 3].y + 240;
         	} else
         	if (this.game.entities[4].alive) {
-	            tempX = this.game.entities[4].x - this.game.entities[this.game.entities.length - 2].x + 140;
-	            tempY = this.game.entities[4].y - this.game.entities[this.game.entities.length - 2].y + 240;
+	            tempX = this.game.entities[4].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	            tempY = this.game.entities[4].y - this.game.entities[this.game.entities.length - 3].y + 240;
         	}
             var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
             this.sin = tempY / hypo;
@@ -729,13 +730,13 @@ FireBall.prototype.update = function () {
             	}
                 this.reset = 0;
             }
-            if (this.game.entities[this.game.entities.length - 2].alive) {
+            if (this.game.entities[this.game.entities.length - 3].alive) {
                 this.y -= this.sin * this.random;
                 this.x -= this.cos * this.random;
             } else { this.y = -100; this.x = -100; }
 
         } else if (this.y < 700) {
-            if (this.game.entities[this.game.entities.length - 2].alive) {
+            if (this.game.entities[this.game.entities.length - 3].alive) {
                 this.y += this.sin * this.random;
                 this.x += this.cos * this.random;
             } else { this.y = -100; this.x = -100; }
@@ -760,7 +761,7 @@ FireBall.prototype.draw = function (ctx) {
 
     }
 
-    if (this.game.entities[this.game.entities.length - 2].alive) // no show after tank is destroyed)
+    if (this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed)
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 2, this.explosion);
 
     Entity.prototype.draw.call(this);
@@ -817,7 +818,7 @@ Rocket.prototype.update = function () {
 	    var distance = Math.sqrt(x * x + y * y);
 	}	 
     // console.log(this.game.clockTick);
-    console.log(this.time);
+    //console.log(this.time);
 
     if (distance < 30) {
         this.explosion = true;  
@@ -887,8 +888,8 @@ Rocket.prototype.update = function () {
 
 
         if (this.reset === 1) { // reset or initializing 1st bullet location base on main_craft.
-            this.x = this.game.entities[this.game.entities.length - 2].x + 15;
-            this.y = this.game.entities[this.game.entities.length - 2].y ;
+            this.x = this.game.entities[this.game.entities.length - 3].x + 15;
+            this.y = this.game.entities[this.game.entities.length - 3].y ;
             this.reset = 0;
         }
         if (!this.explosion)
@@ -914,7 +915,7 @@ Rocket.prototype.draw = function (ctx) {
 
     }
 
-    if (this.game.entities[this.game.entities.length - 2].alive) // no show after tank is destroyed
+    if (this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1, this.explosion, this.currentFrame);
 
     Entity.prototype.draw.call(this);
@@ -954,16 +955,16 @@ NewFlash.prototype.update = function () {
     }
     var x; var y;
     if (this.type === 1) {
+        x = this.game.entities[3].x - this.game.entities[this.game.entities.length - 5].x + 70;
+        y = this.game.entities[3].y - this.game.entities[this.game.entities.length - 5].y - 20;
+    } else if (this.type === 2) {
         x = this.game.entities[3].x - this.game.entities[this.game.entities.length - 4].x + 70;
         y = this.game.entities[3].y - this.game.entities[this.game.entities.length - 4].y - 20;
-    } else if (this.type === 2) {
-        x = this.game.entities[3].x - this.game.entities[this.game.entities.length - 3].x + 70;
-        y = this.game.entities[3].y - this.game.entities[this.game.entities.length - 3].y - 20;
     }
     var distance = Math.sqrt(x * x + y * y);
 
     // console.log(this.game.clockTick);
-    console.log(this.time);
+    //console.log(this.time);
 
     if (distance < 50) {
         this.explosion = true;
@@ -987,16 +988,16 @@ NewFlash.prototype.update = function () {
         this.add1 = true;
         // this.stop = true;
 
-    } else if (1 && this.time === 0) { // this.game.shoot replace by true for auto shooting
+    } else if (this.game.flashShoot && this.time === 0) { // this.game.shoot replace by true for auto shooting
 
 
         if (this.reset === 1) { // reset or initializing 1st bullet location base on main_craft.
             if (this.type === 1) {
-                this.x = this.game.entities[this.game.entities.length - 2].x - 7;
-                this.y = this.game.entities[this.game.entities.length - 2].y - 5;
+                this.x = this.game.entities[this.game.entities.length - 3].x - 7;
+                this.y = this.game.entities[this.game.entities.length - 3].y - 5;
             } else {
-                this.x = this.game.entities[this.game.entities.length - 2].x + 30;
-                this.y = this.game.entities[this.game.entities.length - 2].y - 5;
+                this.x = this.game.entities[this.game.entities.length - 3].x + 30;
+                this.y = this.game.entities[this.game.entities.length - 3].y - 5;
             }
 
             this.reset = 0;
@@ -1024,7 +1025,7 @@ NewFlash.prototype.draw = function (ctx) {
 
     }
 
-    if (this.game.entities[this.game.entities.length - 2].alive) // no show after tank is destroyed
+    if (this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1, this.explosion, this.currentFrame);
 
     Entity.prototype.draw.call(this);
@@ -1166,8 +1167,8 @@ BossBullet.prototype.constructor = BossBullet;
 BossBullet.prototype.update = function () {
 
     // impact detection
-    var x = this.x - this.game.entities[this.game.entities.length - 2].x;
-    var y = this.y - this.game.entities[this.game.entities.length - 2].y - 100;
+    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
     var distance = Math.sqrt(x * x + y * y);
 
     if (distance < 100) {
@@ -1222,13 +1223,13 @@ BossBullet.prototype.update = function () {
             	}
             	this.reset = 0;
             }
-            if (this.game.entities[this.game.entities.length - 2].alive) {
+            if (this.game.entities[this.game.entities.length - 3].alive) {
                 this.y += 3; // this.sin * this.random;
                 this.x += this.rangeX; //this.cos * this.random;
             } else { this.y = -100; this.x = -100; }
 
         } else if (this.y < 700) {
-            if (this.game.entities[this.game.entities.length - 2].alive) {
+            if (this.game.entities[this.game.entities.length - 3].alive) {
                // this.y += this.sin * this.random;
                // this.x += this.cos * this.random;
                 this.y += 3; // this.sin * this.random;
@@ -1254,7 +1255,7 @@ BossBullet.prototype.draw = function (ctx) {
 
     }
 
-    if ((this.game.entities[3].alive || this.game.entities[4].alive) && this.game.entities[this.game.entities.length - 2].alive) // no show after tank is destroyed)
+    if ((this.game.entities[3].alive || this.game.entities[4].alive) && this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed)
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 2, this.explosion);
 
     Entity.prototype.draw.call(this);
