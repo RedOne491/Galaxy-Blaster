@@ -160,7 +160,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("Your Score is "+this.score,250,235);
     }
-    if (this.spaceBar) {
+    if (this.space) {
         this.hp = 100;
         this.score = 0;
        
