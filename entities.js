@@ -820,7 +820,7 @@ Rocket.prototype.update = function () {
     // console.log(this.game.clockTick);
     //console.log(this.time);
 
-    if (distance < 30) {
+    if (distance < 90 ) { // 30) {
         this.explosion = true;
         if (this.add1) {
             this.game.score += 500;       //    this.game.entities[2].hpBar++;
@@ -896,7 +896,7 @@ Rocket.prototype.update = function () {
         if (!this.explosion)
             this.y -= 6;
 
-    } else if (this.y > -100 && !this.explosion) {
+    } else if (this.y > -150 && !this.explosion) {
 
         this.y -= 6;
     }
@@ -954,20 +954,36 @@ NewFlash.prototype.update = function () {
         this.reset = 1;
         // this.locate = false;
     }
-    var x; var y;
+    var x, y, x1, y1, x2, y2;
     if (this.type === 1) {
+        // this is for 1st boss
         x = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 5].x + 70;
         y = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 5].y - 20;
+        // for 2nd miniboss
+        x1 = this.game.entities[7].x - this.game.entities[this.game.entities.length - 5].x + 70;
+        y1 = this.game.entities[7].y - this.game.entities[this.game.entities.length - 5].y - 20;
+        // for 3nd boss
+        x2 = this.game.entities[8].x - this.game.entities[this.game.entities.length - 5].x + 150;
+        y2 = this.game.entities[8].y - this.game.entities[this.game.entities.length - 5].y + 100;
+
     } else if (this.type === 2) {
         x = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 4].x + 70;
         y = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 4].y - 20;
+        // for 2nd miniboss
+        x1 = this.game.entities[7].x - this.game.entities[this.game.entities.length - 4].x + 70;
+        y1 = this.game.entities[7].y - this.game.entities[this.game.entities.length - 4].y - 20;
+        // for 3rd boss
+        x2 = this.game.entities[8].x - this.game.entities[this.game.entities.length - 4].x + 150;
+        y2 = this.game.entities[8].y - this.game.entities[this.game.entities.length - 4].y + 100;
     }
     var distance = Math.sqrt(x * x + y * y);
+    var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
+    var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
 
     // console.log(this.game.clockTick);
     //console.log(this.time);
 
-    if (distance < 50) {
+    if (distance < 80 || distance1 < 80 || distance2 < 150) {
         this.explosion = true;
         if (this.add1) {
             this.game.score += 200;//    this.game.entities[2].hpBar++;
