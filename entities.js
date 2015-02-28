@@ -823,7 +823,7 @@ Rocket.prototype.update = function () {
     if (distance < 30) {
         this.explosion = true;  
         if (this.add1) {
-        //    this.game.entities[2].hpBar++;
+            this.game.score += 500;       //    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
         //this.done = false; 
@@ -969,7 +969,7 @@ NewFlash.prototype.update = function () {
     if (distance < 50) {
         this.explosion = true;
         if (this.add1) {
-            //    this.game.entities[2].hpBar++;
+            this.game.score += 200;//    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
         //this.done = false;
