@@ -150,7 +150,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillStyle = "red";
         this.ctx.fillText("Game Over !", 100,200);
         this.ctx.font='bold 25px Arial';
-        this.ctx.fillText("press space to start new game!",310,225);
+        this.ctx.fillText("press space to start new game!",210,225);
     }
     if (this.score >= 5000) {
         this.draw();
@@ -160,7 +160,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("Your Score is "+this.score,250,235);
     }
-    if (this.space) {
+    if (this.spaceBar) {
         this.hp = 100;
         this.score = 0;
        
