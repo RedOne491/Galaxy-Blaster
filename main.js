@@ -6,13 +6,16 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./img/bg1.png");
 ASSET_MANAGER.queueDownload("./img/bg2.png");
 ASSET_MANAGER.queueDownload("./img/bg3.png");
+ASSET_MANAGER.queueDownload("./img/bg4.png");
+ASSET_MANAGER.queueDownload("./img/bg5.png");
+ASSET_MANAGER.queueDownload("./img/bg6.png");
 ASSET_MANAGER.queueDownload("./img/score.png");
 ASSET_MANAGER.queueDownload("./img/test3.png");
 ASSET_MANAGER.queueDownload("./img/bullet2.png");
 ASSET_MANAGER.queueDownload("./img/enemy1.png");
 ASSET_MANAGER.queueDownload("./img/enemy2.png");
 ASSET_MANAGER.queueDownload("./img/enemy3.png");
-ASSET_MANAGER.queueDownload("./img/boss1.png"); 
+ASSET_MANAGER.queueDownload("./img/boss1.png");
 ASSET_MANAGER.queueDownload("./img/boss_mid2.png");
 ASSET_MANAGER.queueDownload("./img/boss_mid3.png");
 ASSET_MANAGER.queueDownload("./img/meteor_small.png");
@@ -32,7 +35,7 @@ ASSET_MANAGER.downloadAll(function () {
     var snd = new Audio("./sounds/sound.mp3"); // buffers automatically when created
     snd.play();
     var gameEngine = new GameEngine();
-    
+
     //var bg = new Background(gameEngine); 
     var mainCraft = new MainCraft(gameEngine);
     var score = new Score(gameEngine);
@@ -43,10 +46,14 @@ ASSET_MANAGER.downloadAll(function () {
     var enemy3 = new Enemy3(gameEngine);
 
     // background
-   // var bg = new ScrollBG1(gameEngine);
+    // var bg = new ScrollBG1(gameEngine);
     var bg1 = new ScrollBG1(gameEngine);
     var bg2 = new ScrollBG2(gameEngine);
     var bg3 = new ScrollBG3(gameEngine);
+    var bg4 = new ScrollBG4(gameEngine);
+    var bg5 = new ScrollBG5(gameEngine);
+    var bg6 = new ScrollBG5(gameEngine);
+
     // boss
     var midBoss1 = new Boss(gameEngine, 1);
     var midBoss2 = new Boss(gameEngine, 2);
@@ -62,12 +69,15 @@ ASSET_MANAGER.downloadAll(function () {
     var fireBullet = new FireBall(gameEngine, 1);
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
-   
+
 
     // adding background
     gameEngine.addEntity(bg1);
     gameEngine.addEntity(bg2);
     gameEngine.addEntity(bg3);
+    gameEngine.addEntity(bg4);
+    gameEngine.addEntity(bg5);
+    gameEngine.addEntity(bg6);
 
     // adding boss and ememies
     gameEngine.addEntity(midBoss1);
@@ -82,7 +92,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(enemy);
     gameEngine.addEntity(enemy2);
     gameEngine.addEntity(enemy3);
-    
+
     var rangeX = -12;
     for (var i = 0; i < 12; i++) {
         var bossBullet = new BossBullet(gameEngine, rangeX);
@@ -97,10 +107,10 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(score);
     gameEngine.addEntity(smallRock1);
     //gameEngine.addEntity(smallRock2);
-     
+
     gameEngine.init(ctx);
-    
+
     gameEngine.start();
-    
-   
+
+
 });
