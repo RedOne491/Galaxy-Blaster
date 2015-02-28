@@ -12,7 +12,9 @@ ASSET_MANAGER.queueDownload("./img/bullet2.png");
 ASSET_MANAGER.queueDownload("./img/enemy1.png");
 ASSET_MANAGER.queueDownload("./img/enemy2.png");
 ASSET_MANAGER.queueDownload("./img/enemy3.png");
-ASSET_MANAGER.queueDownload("./img/boss1.png");
+ASSET_MANAGER.queueDownload("./img/boss1.png"); 
+ASSET_MANAGER.queueDownload("./img/boss_mid2.png");
+ASSET_MANAGER.queueDownload("./img/boss_mid3.png");
 ASSET_MANAGER.queueDownload("./img/meteor_small.png");
 ASSET_MANAGER.queueDownload("./img/meteor.png");
 ASSET_MANAGER.queueDownload("./img/blueBall1.png");
@@ -31,8 +33,7 @@ ASSET_MANAGER.downloadAll(function () {
     snd.play();
     var gameEngine = new GameEngine();
     
-    //var bg = new Background(gameEngine);
-    var score = new Score(gameEngine);
+    //var bg = new Background(gameEngine); 
     var mainCraft = new MainCraft(gameEngine);
     var score = new Score(gameEngine);
 
@@ -47,7 +48,9 @@ ASSET_MANAGER.downloadAll(function () {
     var bg2 = new ScrollBG2(gameEngine);
     var bg3 = new ScrollBG3(gameEngine);
     // boss
-    var boss1 = new Boss(gameEngine);
+    var midBoss1 = new Boss(gameEngine, 1);
+    var midBoss2 = new Boss(gameEngine, 2);
+    var bigBoss = new Boss(gameEngine, 3);
     // rocks
     var rock1 = new Metero(gameEngine);
     var rock2 = new Metero(gameEngine);
@@ -56,7 +59,8 @@ ASSET_MANAGER.downloadAll(function () {
     // bullets
     var flash = new NewFlash(gameEngine, 1);
     var flash2 = new NewFlash(gameEngine, 2);
-    var fireBullet = new FireBall(gameEngine);
+    var fireBullet = new FireBall(gameEngine, 1);
+    var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
    
 
@@ -66,11 +70,14 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(bg3);
 
     // adding boss and ememies
-    gameEngine.addEntity(boss1);
+    gameEngine.addEntity(midBoss1);
+    gameEngine.addEntity(midBoss2);
+    gameEngine.addEntity(bigBoss);
     gameEngine.addEntity(rock1);
     gameEngine.addEntity(rock2);
     // 6 for fireball
-    gameEngine.addEntity(fireBullet);
+    gameEngine.addEntity(fireBullet); //Blue smart bomb (FireBall) 
+    gameEngine.addEntity(fireBulletBig); //Blue smart bomb (FireBall) 
     gameEngine.addEntity(rocket);
     gameEngine.addEntity(enemy);
     gameEngine.addEntity(enemy2);

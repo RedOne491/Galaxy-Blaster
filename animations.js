@@ -282,7 +282,7 @@ AnimationB.prototype.drawFrame = function (tick, ctx, x, y, scaleBy) {
     var locY = y;
     var offset = vindex === 0 ? this.startX : 0;
     ctx.drawImage(this.spriteSheet,
-                  index * this.frameWidth + offset, vindex * this.frameHeight +
+                  index * this.frameWidth, vindex * this.frameHeight +
                   this.startY,  // source from sheet
                   this.frameWidth, this.frameHeight,
                   locX, locY,
@@ -355,7 +355,7 @@ AnimationBG.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-// Fire ball bullet animation
+// Blue ball animation
 function FireBallAnimation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse) {
     this.spriteSheet = spriteSheet;
     this.startX = startX;
@@ -406,7 +406,7 @@ FireBallAnimation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy, type
 
     var locX = x;
     var locY = y;
-    var offset = vindex === 0 ? this.startX : 0;
+    var offset = vindex === 0 ? this.startX : 0; 
     ctx.drawImage(this.spriteSheet,
                   index * this.frameWidth + offset, vindex * this.frameHeight + this.startY,  // source from sheet
                   this.frameWidth, this.frameHeight,
