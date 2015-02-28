@@ -568,7 +568,7 @@ ScrollBG1.prototype.update = function () {
 
     this.y += 1;
     if (this.y >= 600) {
-        this.y = -1200;
+        this.y = -3000;
     }
 
 
@@ -595,7 +595,7 @@ ScrollBG2.prototype.update = function () {
 
     this.y += 1;
     if (this.y >= 600) {
-        this.y = -1200;
+        this.y = -3000;
     }
 
     Entity.prototype.update.call(this);
@@ -621,7 +621,7 @@ ScrollBG3.prototype.update = function () {
 
     this.y += 1;
     if (this.y >= 600) {
-        this.y = -1200;
+        this.y = -3000;
     }
 
     Entity.prototype.update.call(this);
@@ -1256,7 +1256,7 @@ BossBullet.prototype.draw = function (ctx) {
 
     }
 
-    if ((this.game.entities[3 + 3].alive || this.game.entities[4].alive) && this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed)
+    if ((this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive) && this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed)
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 2, this.explosion);
 
     Entity.prototype.draw.call(this);

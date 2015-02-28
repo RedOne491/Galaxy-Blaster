@@ -52,7 +52,7 @@ ASSET_MANAGER.downloadAll(function () {
     var bg3 = new ScrollBG3(gameEngine);
     var bg4 = new ScrollBG4(gameEngine);
     var bg5 = new ScrollBG5(gameEngine);
-    var bg6 = new ScrollBG5(gameEngine);
+    var bg6 = new ScrollBG6(gameEngine);
 
     // boss
     var midBoss1 = new Boss(gameEngine, 1);
