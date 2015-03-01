@@ -22,6 +22,7 @@ ASSET_MANAGER.queueDownload("./img/meteor_small.png");
 ASSET_MANAGER.queueDownload("./img/meteor.png");
 ASSET_MANAGER.queueDownload("./img/blueBall1.png");
 ASSET_MANAGER.queueDownload("./img/bigBlueBall.png");
+ASSET_MANAGER.queueDownload("./img/explosion100px.png");
 ASSET_MANAGER.queueDownload("./img/finalExplosion.png");
 ASSET_MANAGER.queueDownload("./img/explosion2.png");
 ASSET_MANAGER.queueDownload("./img/rocketA.png");
@@ -70,8 +71,7 @@ ASSET_MANAGER.downloadAll(function () {
     var fireBullet = new FireBall(gameEngine, 1);
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
-
-
+ 
     // adding background
     gameEngine.addEntity(bg1);
     gameEngine.addEntity(bg2);
@@ -88,7 +88,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(rock2);
     // 6 for fireball
     gameEngine.addEntity(fireBullet); //Blue smart bomb (FireBall) 
-    gameEngine.addEntity(fireBulletBig); //Blue smart bomb (FireBall) 
+    gameEngine.addEntity(fireBulletBig); //Blue smart bomb (FireBall)
     gameEngine.addEntity(rocket);
     gameEngine.addEntity(enemy);
     gameEngine.addEntity(enemy2);
