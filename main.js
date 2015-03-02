@@ -45,9 +45,7 @@ ASSET_MANAGER.downloadAll(function () {
     var score = new Score(gameEngine);
 
     // enemy spaceship
-    var enemy = new Enemy(gameEngine);
-    var enemy2 = new Enemy2(gameEngine);
-    var enemy3 = new SmallCraft(gameEngine, 3);
+    var enemy = new SmallCraft(gameEngine, 3);
 
     // background
     // var bg = new ScrollBG1(gameEngine);
