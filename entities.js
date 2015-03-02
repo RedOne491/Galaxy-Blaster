@@ -1562,10 +1562,12 @@ SmallCraft.prototype.update = function () {
     var distance1 = Math.sqrt(x * x + y * y);
 
     // this.explosionBoss = false;
-    if (distance < 50 || distance1 < 50 ) { // 30) {
+    if ((distance < 40 || distance1 < 40 ) && this.time == 0) { // 30) {
         this.explosion = true;
-        this.game.entities[this.game.entities.length - 5].explosion = true;
-        this.game.entities[this.game.entities.length - 6].explosion = true;
+        if (distance < 40) 
+            this.game.entities[this.game.entities.length - 5].explosion = true;
+       else if (distance1 < 40)
+            this.game.entities[this.game.entities.length - 6].explosion = true;
         if (this.add1) {
             this.game.score += 2;       
             //    this.game.entities[2].hpBar++;
