@@ -1525,7 +1525,16 @@ function SmallCraft(game, type) {
     this.switchSprite = true;
     this.time = 0;
     this.add1 = true;
-    Entity.call(this, game, 350, -40);
+    var maxX = 700;
+    var minX = 100;
+    var r = Math.random() * (maxX - minX) + minX;
+
+    var maxY = 300;
+    var minY = 100;
+    var r1 = - Math.random() * (maxY - minY) + minY;
+ 
+
+    Entity.call(this, game, r, r1);
 }
 
 SmallCraft.prototype = new Entity();
@@ -1533,8 +1542,6 @@ SmallCraft.prototype.constructor = SmallCraft;
 
 SmallCraft.prototype.update = function () {
 
- 
-   // this.y += 3;
 
     // impact detection - 1st flash bullet
     var x = this.x - this.game.entities[this.game.entities.length - 5].x;
@@ -1550,7 +1557,7 @@ SmallCraft.prototype.update = function () {
     if (distance < 50 || distance1 < 50 ) { // 30) {
         this.explosion = true;
         if (this.add1) {
-            this.game.score += 25;       
+            this.game.score += 2;       
             //    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
@@ -1561,24 +1568,25 @@ SmallCraft.prototype.update = function () {
         this.time += this.game.clockTick;// integer result this.time = 0 when console output;
 
   
-    if (this.time > 1) {
+    if (this.time > .3) {
         this.explosion = false;
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
-        
-
-
         this.time = 0;
         this.add1 = true;
 
         var maxX = 700;
         var minX = 100;
-        r = Math.random() * (maxX - minX) + minX;
+        var r = Math.random() * (maxX - minX) + minX;
         this.x = r;
-        this.y = -100;// skip down after explosion
+
+        var maxY = 300;
+        var minY = 100;
+        var r1 = Math.random() * (maxY - minY) + minY;
+        this.y = -r1;// skip down after explosion
 
         // this.stop = true;
 
-    }  else if (this.y > -150 && !this.explosion) {
+    }  else if (this.y > -450 && !this.explosion) {
 
         this.y += 3;
     }
@@ -1591,8 +1599,14 @@ SmallCraft.prototype.update = function () {
          */
         var maxX = 700;
         var minX = 100;
-        r = Math.random() * (maxX - minX) + minX;
+        var r = Math.random() * (maxX - minX) + minX;
         this.x = r;
+
+        var maxY = 300;
+        var minY = 100;
+        var r1 = Math.random() * (maxY - minY) + minY;
+        this.y = -r1;// skip down after explosion
+
 
     }
 
@@ -1601,7 +1615,7 @@ SmallCraft.prototype.update = function () {
 
 SmallCraft.prototype.draw = function (ctx) {
     if (this.explosion && !this.switchSprite) {
-        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 25, true, true);
+        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 5, true, true);
         this.switchSprite = true;
 
     } else if (!this.explosion && this.switchSprite) {
