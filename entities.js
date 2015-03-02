@@ -276,7 +276,7 @@ function Boss(game, type) {
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.1, 1, true, false);
         this.alive = true; 
         this.explode = false; 
-        this.hitPoint = 5;
+        this.hitPoint = 15;
         Entity.call(this, game, Math.random() * 800, -500);
     }
     if (this.type === 2) {
@@ -284,7 +284,7 @@ function Boss(game, type) {
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.1, 1, true, false);
         this.alive = false;
         this.explode = false; 
-        this.hitPoint = 10;
+        this.hitPoint = 30;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
     if (this.type === 3) {
@@ -292,7 +292,7 @@ function Boss(game, type) {
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.1, 1, true, false);
         this.alive = false;
         this.explode = false; 
-        this.hitPoint = 10;
+        this.hitPoint = 40;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
     
