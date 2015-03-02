@@ -140,7 +140,7 @@ GameEngine.prototype.update = function () {
 }
 
 GameEngine.prototype.loop = function () {
-    if (this.hp > 0 && this.score < 5000) {
+    if (this.hp > 0 && this.score < 10000) {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
