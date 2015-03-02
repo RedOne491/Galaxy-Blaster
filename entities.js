@@ -1559,7 +1559,7 @@ function SmallCraft(game, type) {
     this.angle = 0;
     this.locationX = r;
     this.locationY = r1;
-
+    this.speedType3 = s;
     Entity.call(this, game, r, -r1);
 }
 
@@ -1574,7 +1574,7 @@ SmallCraft.prototype.update = function () {
         var min = 1;
         var s = Math.random() * (max - min) + min;
         this.speed = s;*/
-        this.locationY += this.speed;
+        this.locationY += this.speedType3;
     }
 
     // impact detection - 1st flash bullet
@@ -1673,12 +1673,18 @@ SmallCraft.prototype.update = function () {
         	this.locationX = r;
         	this.locationY = -r1;
         	
+        	// speed for circular ship
+        	var max = 3;
+		var min = 1;
+        	var s = Math.random() * (max - min) + min;
+        	this.speedType3 = s;
+        	
         }
         // speed
         var max = 6;
         var min = 1;
         var s = Math.random() * (max - min) + min;
-
+	
         this.speed = s;
 
     }
