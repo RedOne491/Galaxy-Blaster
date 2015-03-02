@@ -1510,3 +1510,117 @@ Health.prototype.draw = function (ctx) {
 
     Entity.prototype.draw.call(this);
 }
+
+function SmallCraft(game, type) {
+    this.type = type;
+    if (type % 2 == 0) {
+        this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy2.png"), 0, 0, 59, 32, 100, 1, true, true);
+    } else
+        this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy3.png"), 0, 0, 42, 28, 100, 1, true, true);
+    
+    this.currentTime = 0;
+
+    this.reset = 1;
+    this.explosion = false;
+    this.switchSprite = true;
+    this.time = 0;
+    this.add1 = true;
+    Entity.call(this, game, 350, -40);
+}
+
+SmallCraft.prototype = new Entity();
+SmallCraft.prototype.constructor = SmallCraft;
+
+SmallCraft.prototype.update = function () {
+
+ 
+   // this.y += 3;
+
+    // impact detection - 1st flash bullet
+    var x = this.x - this.game.entities[this.game.entities.length - 5].x;
+    var y = this.y - this.game.entities[this.game.entities.length - 5].y;
+    var distance = Math.sqrt(x * x + y * y);
+
+    // impact 2nd flash bullet
+    var x1 = this.x - this.game.entities[this.game.entities.length - 6].x;
+    var y1 = this.y - this.game.entities[this.game.entities.length - 6].y;
+    var distance1 = Math.sqrt(x * x + y * y);
+
+    // this.explosionBoss = false;
+    if (distance < 50 || distance1 < 50 ) { // 30) {
+        this.explosion = true;
+        if (this.add1) {
+            this.game.score += 25;       
+            //    this.game.entities[2].hpBar++;
+            this.add1 = false;
+        }
+        //this.done = false; 
+    }
+
+    if (this.explosion)
+        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
+
+  
+    if (this.time > 1) {
+        this.explosion = false;
+        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
+        
+
+
+        this.time = 0;
+        this.add1 = true;
+
+        var maxX = 700;
+        var minX = 100;
+        r = Math.random() * (maxX - minX) + minX;
+        this.x = r;
+        this.y = -100;// skip down after explosion
+
+        // this.stop = true;
+
+    }  else if (this.y > -150 && !this.explosion) {
+
+        this.y += 3;
+    }
+
+
+    if (this.y > 600) {
+        this.y = -40;
+        /**
+         * Returns a random number between min (inclusive) and max (exclusive)
+         */
+        var maxX = 700;
+        var minX = 100;
+        r = Math.random() * (maxX - minX) + minX;
+        this.x = r;
+
+    }
+
+    Entity.prototype.update.call(this);
+}
+
+SmallCraft.prototype.draw = function (ctx) {
+    if (this.explosion && !this.switchSprite) {
+        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 25, true, true);
+        this.switchSprite = true;
+
+    } else if (!this.explosion && this.switchSprite) {
+
+        if (this.type % 2 == 0) {
+            this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy2.png"), 0, 0, 59, 32, 100, 1, true, true);
+        } else
+            this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy3.png"), 0, 0, 42, 28, 100, 1, true, true);
+
+        this.switchSprite = false;
+
+    }
+
+   // if (this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1, this.explosion, this.currentFrame);
+
+
+    //////////////
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+
+    Entity.prototype.draw.call(this);
+}

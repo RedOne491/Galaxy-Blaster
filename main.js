@@ -74,6 +74,7 @@ ASSET_MANAGER.downloadAll(function () {
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
     var health = new Health(gameEngine);
+//var smallCraft = new SmallCraft(gameEngine);
 
     // adding background
     gameEngine.addEntity(bg1);
@@ -104,7 +105,12 @@ ASSET_MANAGER.downloadAll(function () {
         gameEngine.addEntity(bossBullet);
     }
 
+    for (var i = 0; i < 10; i++) {
+        var smallCraft = new SmallCraft(gameEngine, i);
+        gameEngine.addEntity(smallCraft);
+    }
 
+   // gameEngine.addEntity(smallCraft);
     gameEngine.addEntity(flash);
     gameEngine.addEntity(flash2);
     gameEngine.addEntity(health);
