@@ -1559,7 +1559,7 @@ SmallCraft.prototype.update = function () {
     // impact 2nd flash bullet
     var x1 = this.x - this.game.entities[this.game.entities.length - 6].x;
     var y1 = this.y - this.game.entities[this.game.entities.length - 6].y;
-    var distance1 = Math.sqrt(x * x + y * y);
+    var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
 
     // this.explosionBoss = false;
     if ((distance < 40 || distance1 < 40 ) && this.time == 0) { // 30) {
