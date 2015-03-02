@@ -38,6 +38,7 @@ ASSET_MANAGER.downloadAll(function () {
     canvas.focus();
     var ctx = canvas.getContext('2d');
     var snd = new Audio("./sounds/sound.mp3"); // buffers automatically when created
+    snd.loop = true;
     snd.play();
     var gameEngine = new GameEngine();
 
