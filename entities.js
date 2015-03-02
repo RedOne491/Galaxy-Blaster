@@ -1557,8 +1557,8 @@ function SmallCraft(game, type) {
     var minY = 400;
     var r1 = - Math.random() * (maxY - minY) + minY;
     this.angle = 0;
-    this.location = 0;
- 
+    this.locationX = r;
+    this.locationY = r1;
 
     Entity.call(this, game, r, -r1);
 }
@@ -1574,7 +1574,7 @@ SmallCraft.prototype.update = function () {
         var min = 1;
         var s = Math.random() * (max - min) + min;
         this.speed = s;
-        this.location += this.speed;
+        this.locationY += this.speed;
     }
 
     // impact detection - 1st flash bullet
@@ -1640,14 +1640,15 @@ SmallCraft.prototype.update = function () {
         var max = 6;
         var min = 1;
         var s = Math.random() * (max - min) + min;
-	this.location = -r1;
+        this.locationX = r;
+	this.locationY = -r1;
         this.speed = s;
 
     }  else if (this.y > -950 && !this.explosion) {
         
         if (this.type % 3 == 0) {
-            this.x = 100 * Math.cos(this.angle) + 400;
-            this.y = 100 * Math.sin(this.angle) + this.location;
+            this.x = 100 * Math.cos(this.angle) + this.locationX;
+            this.y = 100 * Math.sin(this.angle) + this.locationY;
    
         } else
             this.y += this.speed;
@@ -1668,8 +1669,11 @@ SmallCraft.prototype.update = function () {
         var minY = 400;
         var r1 = Math.random() * (maxY - minY) + minY;
         this.y = -r1;// skip down after explosion
-        if (this.type % 3 === 0 && this.type !== 0) 
-        	this.location = -r1;
+        if (this.type % 3 === 0 && this.type !== 0) {
+        	this.locationX = r;
+        	this.locationY = -r1;
+        	
+        }
         // speed
         var max = 6;
         var min = 1;
