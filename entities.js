@@ -1527,7 +1527,9 @@ Health.prototype.draw = function (ctx) {
 
 function SmallCraft(game, type) {
     this.type = type;
-    if (type % 2 == 0) {
+    if (type % 3 == 0 && type !== 0) {
+        this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy1.png"), 0, 0, 59, 32, 100, 1, true, true);
+    } if (type % 2 == 0) {
         this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy2.png"), 0, 0, 59, 32, 100, 1, true, true);
     } else
         this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy3.png"), 0, 0, 42, 28, 100, 1, true, true);
@@ -1554,6 +1556,8 @@ function SmallCraft(game, type) {
     var maxY = 800;
     var minY = 400;
     var r1 = - Math.random() * (maxY - minY) + minY;
+    this.angle = 0;
+    this.location = 0;
  
 
     Entity.call(this, game, r, -r1);
@@ -1563,7 +1567,15 @@ SmallCraft.prototype = new Entity();
 SmallCraft.prototype.constructor = SmallCraft;
 
 SmallCraft.prototype.update = function () {
-
+	
+    if (this.type % 3 == 0 && this.type !== 0) {
+        this.angle += .05;
+        var max = 6;
+        var min = 1;
+        var s = Math.random() * (max - min) + min;
+        this.speed = s;
+        this.location += this.speed;
+    }
 
     // impact detection - 1st flash bullet
     var x = this.x - this.game.entities[this.game.entities.length - 5].x;
@@ -1628,12 +1640,17 @@ SmallCraft.prototype.update = function () {
         var max = 6;
         var min = 1;
         var s = Math.random() * (max - min) + min;
-
+	this.location = -r1;
         this.speed = s;
 
     }  else if (this.y > -950 && !this.explosion) {
-
-        this.y += this.speed;
+        
+        if (this.type % 3 == 0) {
+            this.x = 100 * Math.cos(this.angle) + 400;
+            this.y = 100 * Math.sin(this.angle) + this.location;
+   
+        } else
+            this.y += this.speed;
     }
 
 
@@ -1651,6 +1668,8 @@ SmallCraft.prototype.update = function () {
         var minY = 400;
         var r1 = Math.random() * (maxY - minY) + minY;
         this.y = -r1;// skip down after explosion
+        if (this.type % 3 === 0 && this.type !== 0) 
+        	this.location = -r1;
         // speed
         var max = 6;
         var min = 1;
