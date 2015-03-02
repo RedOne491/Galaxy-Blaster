@@ -152,7 +152,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("press space to start new game!",210,225);
     }
-    if (this.score >= 5000) {
+    if (this.score >= 10000) {
         this.draw();
         this.ctx.font='bold 100px Arial';
         this.ctx.fillStyle = "red";
