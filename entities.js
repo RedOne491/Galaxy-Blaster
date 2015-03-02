@@ -1689,7 +1689,9 @@ SmallCraft.prototype.draw = function (ctx) {
 
     } else if (!this.explosion && this.switchSprite) {
 
-        if (this.type % 2 == 0) {
+        if (this.type % 3 == 0 && this.type !== 0) {
+            this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy1.png"), 0, 0, 59, 32, 100, 1, true, true);
+        }else if (this.type % 2 == 0) {
             this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy2.png"), 0, 0, 59, 32, 100, 1, true, true);
         } else
             this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/enemy3.png"), 0, 0, 42, 28, 100, 1, true, true);
