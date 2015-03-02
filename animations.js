@@ -353,7 +353,11 @@ function FireBallAnimation(spriteSheet, startX, startY, frameWidth, frameHeight,
     this.action = 0;
 }
 
+<<<<<<< HEAD
 FireBallAnimation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy, type, explosion, flash) {
+=======
+FireBallAnimation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy, type, explosion) {
+>>>>>>> origin/gh-pages
     var scaleBy = scaleBy || 1;
     this.elapsedTime += tick;
     if (this.loop) {
