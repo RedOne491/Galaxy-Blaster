@@ -28,6 +28,8 @@ ASSET_MANAGER.queueDownload("./img/explosion2.png");
 ASSET_MANAGER.queueDownload("./img/rocketA.png");
 ASSET_MANAGER.queueDownload("./img/bossBullet.png");
 ASSET_MANAGER.queueDownload("./img/flashEffect.png");
+ASSET_MANAGER.queueDownload("./img/heart.png");
+
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
     var canvas = document.getElementById('gameWorld');
@@ -71,7 +73,8 @@ ASSET_MANAGER.downloadAll(function () {
     var fireBullet = new FireBall(gameEngine, 1);
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
- 
+    var health = new Health(gameEngine);
+
     // adding background
     gameEngine.addEntity(bg1);
     gameEngine.addEntity(bg2);
@@ -104,6 +107,7 @@ ASSET_MANAGER.downloadAll(function () {
 
     gameEngine.addEntity(flash);
     gameEngine.addEntity(flash2);
+    gameEngine.addEntity(health);
     gameEngine.addEntity(mainCraft);
     gameEngine.addEntity(score);
     gameEngine.addEntity(smallRock1);

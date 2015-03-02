@@ -1442,3 +1442,71 @@ ScrollBG6.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
+function Health(game) {
+    this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/heart.png"), 0, 0, 35, 31, 100, 1, true, true);
+
+    this.currentTime = 0;
+    this.nextTime = 5;
+    this.go = false;
+    this.reset = 1;
+    this.randomY = 5;
+    this.hit = false;
+    Entity.call(this, game, 350, -40);
+}
+
+Health.prototype = new Entity();
+Health.prototype.constructor = Health;
+
+Health.prototype.update = function () {
+
+    if (this.currentTime > 8 ) {// this.nextTime) {
+        this.y += 3;
+    }
+
+    // impact detection
+    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
+    var distance = Math.sqrt(x * x + y * y);
+
+    if (distance < 100) {
+       // this.hit= true; // hit the aircraft
+        //if (this.add1) {
+        this.game.hp += 30;//  this.game.entities[3].hpBar += 0.4;
+        //    this.add1 = false;
+        //}
+        this.y = -40;
+        this.currentTime = 0;
+        var maxX = 700;
+        var minX = 100;
+        r = Math.random() * (maxX - minX) + minX;
+        this.x = r;
+    }
+
+
+    this.currentTime += this.game.clockTick;
+    
+
+    if (this.y > 600) {
+        this.y = -40;
+        this.currentTime = 0;
+      //  this.nextTime += 15;
+        // this.x = 0;
+        /**
+         * Returns a random number between min (inclusive) and max (exclusive)
+         */
+        var maxX = 700;
+        var minX = 100;
+        r = Math.random() * (maxX - minX) + minX;
+        this.x = r;
+
+    }
+
+    Entity.prototype.update.call(this);
+}
+
+Health.prototype.draw = function (ctx) {
+
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+
+    Entity.prototype.draw.call(this);
+}
