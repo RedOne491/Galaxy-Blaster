@@ -1076,7 +1076,7 @@ NewFlash.prototype.update = function () {
     // if (this.game.shoot)
     //    this.stop = false;
 
-    if (this.time > .5) {
+    if (this.time > .2) {
         this.explosion = false;
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
         this.y = -600;// skip down after explosion
@@ -1564,6 +1564,8 @@ SmallCraft.prototype.update = function () {
     // this.explosionBoss = false;
     if (distance < 50 || distance1 < 50 ) { // 30) {
         this.explosion = true;
+        this.game.entities[this.game.entities.length - 5].explosion = true;
+        this.game.entities[this.game.entities.length - 6].explosion = true;
         if (this.add1) {
             this.game.score += 2;       
             //    this.game.entities[2].hpBar++;
