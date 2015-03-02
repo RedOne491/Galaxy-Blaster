@@ -1590,6 +1590,11 @@ SmallCraft.prototype.update = function () {
            this.game.entities[this.game.entities.length - 6].explosion = true;
        else if (distance2 < 55)
            this.game.entities[13].explosion = true;
+           
+       this.game.entities[6].hitPoint++;
+       this.game.entities[7].hitPoint++;
+       this.game.entities[8].hitPoint++;
+
 
         if (this.add1) {
             this.game.score += 5;       
