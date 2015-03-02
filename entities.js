@@ -299,9 +299,17 @@ function Boss(game, type) {
     this.animExplosionBoss = new AnimationB(ASSET_MANAGER.getAsset(
 		"./img/explosion100px.png"), 0, 0, 100, 100, .05, 44, false, false); 
     
+    this.animDamaged1 = new AnimationB(ASSET_MANAGER.getAsset(
+	"./img/fire_damaged.png"), 0, 0, 47, 80, .05, 16, true, false); 
+   
+    this.animDamaged2 = new AnimationB(ASSET_MANAGER.getAsset(
+	"./img/fire_damaged.png"), 0, 0, 47, 80, .05, 16, true, false); 
+    
     this.right = true;
     this.up = true;
     this.elapsedTime = 0;
+    this.firstFire = this.hitPoint * .5;
+    this.secondFire = this.hitPoint * .25;
 }
 
 //Boss.prototype = new Entity();
@@ -365,12 +373,29 @@ Boss.prototype.update = function () {
 Boss.prototype.draw = function (ctx) {
     this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 3, 1);
     
-    if (this.explode && this.type != 3) 
-    	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+10, this.y+40, 8, 1.5); 
+    if (this.hitPoint < this.firstFire && this.type != 3)
+    	this.animDamaged1.drawFrame(this.game.clockTick, ctx, this.x+100, this.y+20, 16, 1);
     
-    if (this.explode && this.type == 3)
-    	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+50, this.y+80, 8, 3); 
+    if (this.hitPoint < this.secondFire && this.type != 3)
+    	this.animDamaged2.drawFrame(this.game.clockTick, ctx, this.x, this.y, 16, 1);
+     
+    if (this.hitPoint < this.firstFire && this.type == 3)
+    	this.animDamaged1.drawFrame(this.game.clockTick, ctx, this.x+200, this.y+50, 16, 2.5);
+    
+    if (this.hitPoint < this.secondFire && this.type == 3)
+    	this.animDamaged2.drawFrame(this.game.clockTick, ctx, this.x, this.y, 16, 2.5);
+    
+    if (this.explode && this.type != 3) {
+    	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+10, this.y+40, 8, 1.5); 
 
+	    var snd = new Audio("./sounds/bossExploding.mp3"); // buffers automatically when created
+	    snd.play();
+    }
+    if (this.explode && this.type == 3) {
+    	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+50, this.y+80, 8, 3); 
+    	var snd = new Audio("./sounds/bossExploding.mp3"); // buffers automatically when created
+	    snd.play(); 
+    }
 }
 
 
@@ -830,9 +855,9 @@ FireBall.prototype.draw = function (ctx) {
         this.switchSprite = true;
 
     } else if (!this.explosion && this.switchSprite) {
-        if (this.type === 1)
+        if (this.type === 1 && (this.game.entities[6].alive || this.game.entities[7].alive))
         	this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/blueBall1.png"), 0, 0, 20, 22, .07, 6, true, true);
-        else
+        else 
         	this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/bigBlueBall.png"), 0, 0, 70, 70, .07, 4, true, true);
 
         this.switchSprite = false;
