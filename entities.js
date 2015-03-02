@@ -273,7 +273,7 @@ function Boss(game, type) {
     
     if (this.type === 1) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
-			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.1, 1, true, false);
+			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = true; 
         this.explode = false; 
         this.hitPoint = 20;
@@ -281,7 +281,7 @@ function Boss(game, type) {
     }
     if (this.type === 2) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
-    		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.1, 1, true, false);
+    		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = false;
         this.explode = false; 
         this.hitPoint = 30;
@@ -289,7 +289,7 @@ function Boss(game, type) {
     }
     if (this.type === 3) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
-	   		"./img/boss1.png"), 0, 0, 374, 300, 0.1, 1, true, false);
+	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
         this.alive = false;
         this.explode = false; 
         this.hitPoint = 50;
@@ -363,7 +363,7 @@ Boss.prototype.update = function () {
 }
 
 Boss.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1, 1);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 3, 1);
     
     if (this.explode && this.type != 3) 
     	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+10, this.y+40, 8, 1.5); 
@@ -935,7 +935,7 @@ Rocket.prototype.update = function () {
         this.explosion = false;
         if (this.game.entities[3 + 3].alive) {
             this.game.entities[3 + 3].hitPoint-= 3;
-            if (this.game.entities[3 + 3].hitPoint === 0) {
+            if (this.game.entities[3 + 3].hitPoint <= 0) {
                 this.game.entities[3 + 3].alive = false; 
                 this.game.entities[3 + 3].explode = true;     
                 this.game.entities[4 + 3].alive = true;
@@ -944,7 +944,7 @@ Rocket.prototype.update = function () {
         }
         if (this.game.entities[4 + 3].alive) {
             this.game.entities[4 + 3].hitPoint-= 3;
-            if (this.game.entities[4 + 3].hitPoint === 0) {
+            if (this.game.entities[4 + 3].hitPoint <= 0) {
                 this.game.entities[4 + 3].alive = false;
                 this.game.entities[4 + 3].explode = true; 
                 this.game.entities[5 + 3].alive = true;
@@ -953,7 +953,7 @@ Rocket.prototype.update = function () {
         }
         if (this.game.entities[5 + 3].alive) {
             this.game.entities[5 + 3].hitPoint-= 3;
-            if (this.game.entities[5 + 3].hitPoint === 0) {
+            if (this.game.entities[5 + 3].hitPoint <= 0) {
                 this.game.entities[5 + 3].alive = false;
                 this.game.entities[5 + 3].explode = true; 
             }
