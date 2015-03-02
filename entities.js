@@ -1643,6 +1643,7 @@ SmallCraft.prototype.update = function () {
         var s = Math.random() * (max - min) + min;
         this.locationX = r;
 	this.locationY = -r1;
+	this.angleSpeed = s1 * (Math.PI / 180);
         this.speed = s;
 
     }  else if (this.y > -950 && !this.explosion) {
@@ -1650,7 +1651,7 @@ SmallCraft.prototype.update = function () {
         if (this.type % 3 == 0) {
             this.x = 100 * Math.cos(this.angle) + this.locationX;
             this.y = 100 * Math.sin(this.angle) + this.locationY;
-   
+   	
         } else
             this.y += this.speed;
     }
