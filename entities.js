@@ -1525,16 +1525,24 @@ function SmallCraft(game, type) {
     this.switchSprite = true;
     this.time = 0;
     this.add1 = true;
+
+    // random speed 
+    var max = 6;
+    var min = 1;
+    var s = Math.random() * (max - min) + min;
+
+    this.speed = s;
+
     var maxX = 700;
     var minX = 100;
     var r = Math.random() * (maxX - minX) + minX;
 
-    var maxY = 300;
-    var minY = 100;
+    var maxY = 800;
+    var minY = 400;
     var r1 = - Math.random() * (maxY - minY) + minY;
  
 
-    Entity.call(this, game, r, r1);
+    Entity.call(this, game, r, -r1);
 }
 
 SmallCraft.prototype = new Entity();
@@ -1579,21 +1587,26 @@ SmallCraft.prototype.update = function () {
         var r = Math.random() * (maxX - minX) + minX;
         this.x = r;
 
-        var maxY = 300;
-        var minY = 100;
+        var maxY = 800;
+        var minY = 400;
         var r1 = Math.random() * (maxY - minY) + minY;
         this.y = -r1;// skip down after explosion
 
-        // this.stop = true;
+        // speed
+        var max = 6;
+        var min = 1;
+        var s = Math.random() * (max - min) + min;
 
-    }  else if (this.y > -450 && !this.explosion) {
+        this.speed = s;
 
-        this.y += 3;
+    }  else if (this.y > -950 && !this.explosion) {
+
+        this.y += this.speed;
     }
 
 
     if (this.y > 600) {
-        this.y = -40;
+
         /**
          * Returns a random number between min (inclusive) and max (exclusive)
          */
@@ -1602,11 +1615,16 @@ SmallCraft.prototype.update = function () {
         var r = Math.random() * (maxX - minX) + minX;
         this.x = r;
 
-        var maxY = 300;
-        var minY = 100;
+        var maxY = 800;
+        var minY = 400;
         var r1 = Math.random() * (maxY - minY) + minY;
         this.y = -r1;// skip down after explosion
+        // speed
+        var max = 6;
+        var min = 1;
+        var s = Math.random() * (max - min) + min;
 
+        this.speed = s;
 
     }
 
