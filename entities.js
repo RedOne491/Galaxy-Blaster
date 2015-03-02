@@ -1560,6 +1560,7 @@ function SmallCraft(game, type) {
     this.locationX = r;
     this.locationY = r1;
     this.speedType3 = s;
+    this.angleSpeed = .05;
     Entity.call(this, game, r, -r1);
 }
 
@@ -1569,7 +1570,7 @@ SmallCraft.prototype.constructor = SmallCraft;
 SmallCraft.prototype.update = function () {
 	
     if (this.type % 3 == 0 && this.type !== 0 && this.y ) {
-        this.angle += .05;
+        this.angle += this.angleSpeed;// .05;
         /*var max = 6;
         var min = 1;
         var s = Math.random() * (max - min) + min;
@@ -1678,6 +1679,12 @@ SmallCraft.prototype.update = function () {
 		var min = 1;
         	var s = Math.random() * (max - min) + min;
         	this.speedType3 = s;
+        	
+        	// random angle / rotation speed
+        	var max1 = 3;
+		var min1 = 1;
+        	var s1 = Math.random() * (max1 - min1) + min1;
+        	this.angleSpeed = s1 * (Math.PI / 180);
         	
         }
         // speed
