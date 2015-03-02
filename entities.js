@@ -1641,11 +1641,11 @@ SmallCraft.prototype.update = function () {
         var max = 6;
         var min = 1;
         var s = Math.random() * (max - min) + min;
-        if (this.type % 3 === 0 && this.type !== 0) {
+       /* if (this.type % 3 === 0 && this.type !== 0) {
 	    this.locationX = r;
 	    this.locationY = -r1;
 	    this.angleSpeed = s1 * (Math.PI / 180);
-        }
+        } */
         this.speed = s;
 
     }  else if (this.y > -950 && !this.explosion) {
