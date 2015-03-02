@@ -1034,33 +1034,20 @@ NewFlash.prototype.update = function () {
         // this.locate = false;
     }
     var x, y, x1, y1, x2, y2;
-    if (this.type === 1) {
-        // this is for 1st boss
-        x = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 5].x + 70;
-        y = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 5].y - 20;
-        // for 2nd miniboss
-        x1 = this.game.entities[7].x - this.game.entities[this.game.entities.length - 5].x + 70;
-        y1 = this.game.entities[7].y - this.game.entities[this.game.entities.length - 5].y - 20;
-        // for 3nd boss
-        x2 = this.game.entities[8].x - this.game.entities[this.game.entities.length - 5].x + 150;
-        y2 = this.game.entities[8].y - this.game.entities[this.game.entities.length - 5].y + 100;
 
-    } else if (this.type === 2) {
-        x = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 4].x + 70;
-        y = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 4].y - 20;
-        // for 2nd miniboss
-        x1 = this.game.entities[7].x - this.game.entities[this.game.entities.length - 4].x + 70;
-        y1 = this.game.entities[7].y - this.game.entities[this.game.entities.length - 4].y - 20;
-        // for 3rd boss
-        x2 = this.game.entities[8].x - this.game.entities[this.game.entities.length - 4].x + 150;
-        y2 = this.game.entities[8].y - this.game.entities[this.game.entities.length - 4].y + 100;
-    }
+    // this is for 1st boss
+    x = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 5].x + 70;
+    y = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 5].y - 20;
+    // for 2nd miniboss
+    x1 = this.game.entities[7].x - this.game.entities[this.game.entities.length - 5].x + 70;
+    y1 = this.game.entities[7].y - this.game.entities[this.game.entities.length - 5].y - 20;
+    // for 3nd boss
+    x2 = this.game.entities[8].x - this.game.entities[this.game.entities.length - 5].x + 150;
+    y2 = this.game.entities[8].y - this.game.entities[this.game.entities.length - 5].y + 100;
+
     var distance = Math.sqrt(x * x + y * y);
     var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
     var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
-
-    // console.log(this.game.clockTick);
-    //console.log(this.time);
 
     if (distance < 80 || distance1 < 80 || distance2 < 150) {
         this.explosion = true;
@@ -1561,15 +1548,24 @@ SmallCraft.prototype.update = function () {
     var y1 = this.y - this.game.entities[this.game.entities.length - 6].y;
     var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
 
+    // impact on rocket
+    var x2 = this.x - this.game.entities[13].x;
+    var y2 = this.y - this.game.entities[13].y;
+    var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
+
+
     // this.explosionBoss = false;
-    if ((distance < 40 || distance1 < 40 ) && this.time == 0) { // 30) {
+    if ((distance < 55 || distance1 < 55 || distance2 < 55) && this.time == 0) { // 30) {
         this.explosion = true;
-        if (distance < 40) 
+        if (distance < 55) 
             this.game.entities[this.game.entities.length - 5].explosion = true;
-       else if (distance1 < 40)
-            this.game.entities[this.game.entities.length - 6].explosion = true;
+       else if (distance1 < 55)
+           this.game.entities[this.game.entities.length - 6].explosion = true;
+       else if (distance2 < 55)
+           this.game.entities[13].explosion = true;
+
         if (this.add1) {
-            this.game.score += 2;       
+            this.game.score += 5;       
             //    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
