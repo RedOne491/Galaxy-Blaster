@@ -269,36 +269,39 @@ Score.prototype.draw = function (ctx) {
 
 // boss
 function Boss(game, type) {
-    this.type = type;
+    this.type = type; 
+    
     if (this.type === 1) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
-			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.1, 1, true, false, false);
-    }
-    if (this.type === 2) {
-        this.animation = new AnimationB(ASSET_MANAGER.getAsset(
-    		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.1, 1, true, false, false);
-    }
-    if (this.type === 3) {
-        this.animation = new AnimationB(ASSET_MANAGER.getAsset(
-	   		"./img/boss1.png"), 0, 0, 374, 300, 0.1, 1, true, false, false);
-    }
-    this.right = true;
-    this.up = true;
-    this.alive = true;
-    if (this.type === 1) {
+			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.1, 1, true, false);
+        this.alive = true; 
+        this.explode = false; 
         this.hitPoint = 5;
         Entity.call(this, game, Math.random() * 800, -500);
     }
     if (this.type === 2) {
+        this.animation = new AnimationB(ASSET_MANAGER.getAsset(
+    		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.1, 1, true, false);
         this.alive = false;
+        this.explode = false; 
         this.hitPoint = 10;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
     if (this.type === 3) {
+        this.animation = new AnimationB(ASSET_MANAGER.getAsset(
+	   		"./img/boss1.png"), 0, 0, 374, 300, 0.1, 1, true, false);
         this.alive = false;
+        this.explode = false; 
         this.hitPoint = 10;
-        Entity.call(this, game, Math.random() * 800, 1000);
+        Entity.call(this, game, Math.random() * 800, 1000); 
     }
+    
+    this.animExplosionBoss = new AnimationB(ASSET_MANAGER.getAsset(
+		"./img/explosion100px.png"), 0, 0, 100, 100, .05, 44, false, false); 
+    
+    this.right = true;
+    this.up = true;
+    this.elapsedTime = 0;
 }
 
 //Boss.prototype = new Entity();
@@ -345,25 +348,29 @@ Boss.prototype.update = function () {
                 else this.x -= 2;
                 if (this.up) this.y -= 2;
                 else this.y += 2;
-
-                //		    if (this.x == -200) this.right = true;
-                //		    if (this.x == 600) this.right = false;
-                //		    if (this.y == -100) this.up = false;
-                //		    if (this.y == 200) this.up = true;
-                //		    if (this.right) this.x += 1;
-                //		    else this.x -= 1;
-                //		    if (this.up) this.y -= 1;
-                //		    else this.y += 1;
+ 
             }
         }
     }
-    //	Entity.prototype.update.call(this);
-
+    if (this.explode) { 
+    	this.elapsedTime += this.game.clockTick;   
+    	console.log("time = " + this.elapsedTime);
+    	if (this.elapsedTime > 1.6) {
+    		this.y = 1000;
+    		this.explode = false;
+    	}
+    }
 }
 
 Boss.prototype.draw = function (ctx) {
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    //   Entity.prototype.draw.call(this);
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1, 1);
+    
+    if (this.explode && this.type != 3) 
+    	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+10, this.y+40, 8, 1.5); 
+    
+    if (this.explode && this.type == 3)
+    	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+50, this.y+80, 8, 3); 
+
 }
 
 
@@ -638,12 +645,12 @@ ScrollBG3.prototype.draw = function (ctx) {
 // fire ball bullet
 function FireBall(game, type) {
     this.type = type;
-    if (this.type === 1 || this.type === 2) {
+    if (this.type === 1) {
         this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/blueBall1.png"), 0, 0, 20, 22, 0.07, 6, true, true);
     }
-    //	if (this.type === 2) {
-    //		this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/bigBlueBall.png"), 0, 0, 70, 70, 0.07, 4, true, true);
-    //	}
+	if (this.type === 2) {
+		this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/bigBlueBall.png"), 0, 0, 70, 70, 0.07, 4, true, true);
+	}
     this.reset = 1;
     this.shoot = 0; // to be sure bullet after fire have to get off screen after user release shoot button
     this.locate = false;
@@ -665,86 +672,154 @@ FireBall.prototype = new Entity();
 FireBall.prototype.constructor = FireBall;
 
 FireBall.prototype.update = function () {
-
-    // impact detection
-    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
-    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
-    var distance = Math.sqrt(x * x + y * y);
-
-    // console.log(this.game.clockTick);
-    //console.log(this.time);
-
-    if (distance < 100) {
-        this.explosion = true;
-        if (this.add1) {
-            this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
-            this.add1 = false;
-        }
+    if (this.type === 1) {
+	    // impact detection
+	    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+	    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
+	    var distance = Math.sqrt(x * x + y * y);
+	
+	    // console.log(this.game.clockTick);
+	    //console.log(this.time);
+	
+	    if (distance < 100) {
+	        this.explosion = true;
+	        if (this.add1) {
+	            this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
+	            this.add1 = false;
+	        }
+	    }
+	
+	    if (this.explosion)
+	        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
+	    // end impact detection
+	
+	    if (this.time > 1) {
+	        this.explosion = false;
+	        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
+	        this.y = 800;// skip down after explosion
+	        this.time = 0;
+	        this.add1 = true;
+	        // this.stop = true;
+	
+	    } else if (!this.explosion && (this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive)) {
+	        // this.activate = true;
+	
+	        if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
+	            this.reset = 1;
+	            this.locate = false;
+	            this.random = Math.random() * (15 - 5) + 5;
+	
+	        }
+	
+	        if (!this.locate) {
+	            if (this.game.entities[3 + 3].alive) {
+	                tempX = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	                tempY = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
+	            } else
+	                if (this.game.entities[4 + 3].alive) {
+	                    tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	                    tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
+	                }
+	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
+	            this.sin = tempY / hypo;
+	            this.cos = tempX / hypo;
+	            this.locate = true;
+	        }
+	        if (true) {
+	            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss.
+	                if (this.game.entities[3 + 3].alive) {
+	                    this.x = this.game.entities[3 + 3].x + 88; // offset
+	                    this.y = this.game.entities[3 + 3].y + 135; // offset
+	                } else
+	                    if (this.game.entities[4 + 3].alive) {
+	                        this.x = this.game.entities[4 + 3].x + 88; // offset
+	                        this.y = this.game.entities[4 + 3].y + 135; // offset
+	                    }
+	                this.reset = 0;
+	            }
+	            if (this.game.entities[this.game.entities.length - 3].alive) {
+	                this.y -= this.sin * this.random;
+	                this.x -= this.cos * this.random;
+	            } else { this.y = -100; this.x = -100; }
+	
+	        } else if (this.y < 700) {
+	            if (this.game.entities[this.game.entities.length - 3].alive) {
+	                this.y += this.sin * this.random;
+	                this.x += this.cos * this.random;
+	            } else { this.y = -100; this.x = -100; }
+	        }
+	
+	    } else if (!this.explosion && !this.game.entities[3 + 3].alive) { this.x = -25; this.y = -25; }
+	    else if (!this.explosion && !this.game.entities[4 + 3].alive) { this.x = -25; this.y = -25; }
     }
-
-    if (this.explosion)
-        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
-    // end impact detection
-
-    if (this.time > 1) {
-        this.explosion = false;
-        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
-        this.y = 800;// skip down after explosion
-        this.time = 0;
-        this.add1 = true;
-        // this.stop = true;
-
-    } else if (!this.explosion && (this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive)) {
-        // this.activate = true;
-
-        if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
-            this.reset = 1;
-            this.locate = false;
-            this.random = Math.random() * (15 - 5) + 5;
-
-        }
-
-        if (!this.locate) {
-            if (this.game.entities[3 + 3].alive) {
-                tempX = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
-                tempY = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
-            } else
-                if (this.game.entities[4 + 3].alive) {
-                    tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
-                    tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
-                }
-            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
-            this.sin = tempY / hypo;
-            this.cos = tempX / hypo;
-            this.locate = true;
-        }
-        if (true) {
-            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss.
-                if (this.game.entities[3 + 3].alive) {
-                    this.x = this.game.entities[3 + 3].x + 88; // offset
-                    this.y = this.game.entities[3 + 3].y + 135; // offset
-                } else
-                    if (this.game.entities[4 + 3].alive) {
-                        this.x = this.game.entities[4 + 3].x + 88; // offset
-                        this.y = this.game.entities[4 + 3].y + 135; // offset
-                    }
-                this.reset = 0;
-            }
-            if (this.game.entities[this.game.entities.length - 3].alive) {
-                this.y -= this.sin * this.random;
-                this.x -= this.cos * this.random;
-            } else { this.y = -100; this.x = -100; }
-
-        } else if (this.y < 700) {
-            if (this.game.entities[this.game.entities.length - 3].alive) {
-                this.y += this.sin * this.random;
-                this.x += this.cos * this.random;
-            } else { this.y = -100; this.x = -100; }
-        }
-
-    } else if (!this.explosion && !this.game.entities[3 + 3].alive) { this.x = -25; this.y = -25; }
-    else if (!this.explosion && !this.game.entities[4 + 3].alive) { this.x = -25; this.y = -25; }
-
+    if (this.type === 2 && this.game.entities[5 + 3].alive) {
+    	var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+	    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
+	    var distance = Math.sqrt(x * x + y * y);
+	
+	    // console.log(this.game.clockTick);
+	    //console.log(this.time);
+	
+	    if (distance < 100) {
+	        this.explosion = true;
+	        if (this.add1) {
+	            this.game.hp -= 90 //  this.game.entities[3].hpBar += 0.4;
+	            this.add1 = false;
+	        }
+	    }
+	
+	    if (this.explosion)
+	        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
+	    // end impact detection
+	
+	    if (this.time > 1) {
+	        this.explosion = false;
+	        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
+	        this.y = 800;// skip down after explosion
+	        this.time = 0;
+	        this.add1 = true;
+	        // this.stop = true;
+	
+	    } else if (!this.explosion) {
+	        // this.activate = true;
+	
+	        if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
+	            this.reset = 1;
+	            this.locate = false;
+	            this.random = Math.random() * (15 - 5) + 5;
+	
+	        }
+	
+	        if (!this.locate) { 
+	            tempX = this.game.entities[5 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	            tempY = this.game.entities[5 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
+	            
+	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
+	            this.sin = tempY / hypo;
+	            this.cos = tempX / hypo;
+	            this.locate = true;
+	        }
+	        if (true) {
+	            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss. 
+                    this.x = this.game.entities[5 + 3].x + 180; // offset
+                    this.y = this.game.entities[5 + 3].y + 280; // offset
+                 
+	                this.reset = 0;
+	            }
+	            if (this.game.entities[this.game.entities.length - 3].alive) {
+	                this.y -= this.sin * this.random;
+	                this.x -= this.cos * this.random;
+	            } else { this.y = -100; this.x = -100; }
+	
+	        } else if (this.y < 700) {
+	            if (this.game.entities[this.game.entities.length - 3].alive) {
+	                this.y += this.sin * this.random;
+	                this.x += this.cos * this.random;
+	            } else { this.y = -100; this.x = -100; }
+	        }
+	
+	    } else if (!this.explosion) { this.x = -25; this.y = -25; } 
+    } 
     //    Entity.prototype.update.call(this);
 }
 
@@ -755,8 +830,11 @@ FireBall.prototype.draw = function (ctx) {
         this.switchSprite = true;
 
     } else if (!this.explosion && this.switchSprite) {
-        //     this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/bigBlueBall.png"), 0, 0, 70, 70, .07, 4, true, true);
-        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/blueBall1.png"), 0, 0, 20, 22, .07, 6, true, true);
+        if (this.type === 1)
+        	this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/blueBall1.png"), 0, 0, 20, 22, .07, 6, true, true);
+        else
+        	this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/bigBlueBall.png"), 0, 0, 70, 70, .07, 4, true, true);
+
         this.switchSprite = false;
 
     }
@@ -771,7 +849,7 @@ FireBall.prototype.draw = function (ctx) {
 function Rocket(game) {
     this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/rocketA.png"), 0, 0, 33, 116, .1, 6, true, true);
     // this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/expl.png"), 0, 0, 65, 81, .1, 5, true, true);
-
+    
     this.reset = 1;
     this.shoot = 0; // to be sure bullet after fire have to get off screen after user release shoot button
     this.locate = false;
@@ -797,7 +875,7 @@ Rocket.prototype.update = function () {
     if (this.y <= -100) {
         this.reset = 1;
         // this.locate = false;
-    }
+    } 
     this.rocket;
     for (i = 0; i < this.game.entities.length; i++) {
         if (this.game.entities[i] instanceof Rocket) this.rocket = i;
@@ -820,6 +898,7 @@ Rocket.prototype.update = function () {
     // console.log(this.game.clockTick);
     //console.log(this.time);
 
+   // this.explosionBoss = false;
     if (distance < 90 ) { // 30) {
         this.explosion = true;
         if (this.add1) {
@@ -857,8 +936,8 @@ Rocket.prototype.update = function () {
         if (this.game.entities[3 + 3].alive) {
             this.game.entities[3 + 3].hitPoint--;
             if (this.game.entities[3 + 3].hitPoint === 0) {
-                this.game.entities[3 + 3].alive = false;
-                this.game.entities[3 + 3].y = 1000;
+                this.game.entities[3 + 3].alive = false; 
+                this.game.entities[3 + 3].explode = true;     
                 this.game.entities[4 + 3].alive = true;
                 this.game.entities[4 + 3].y = -500;
             }
@@ -867,7 +946,7 @@ Rocket.prototype.update = function () {
             this.game.entities[4 + 3].hitPoint--;
             if (this.game.entities[4 + 3].hitPoint === 0) {
                 this.game.entities[4 + 3].alive = false;
-                this.game.entities[4 + 3].y = 1000;
+                this.game.entities[4 + 3].explode = true; 
                 this.game.entities[5 + 3].alive = true;
                 this.game.entities[5 + 3].y = -500;
             }
@@ -876,7 +955,7 @@ Rocket.prototype.update = function () {
             this.game.entities[5 + 3].hitPoint--;
             if (this.game.entities[5 + 3].hitPoint === 0) {
                 this.game.entities[5 + 3].alive = false;
-                this.game.entities[5 + 3].y = 1000;
+                this.game.entities[5 + 3].explode = true; 
             }
         }
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
@@ -997,7 +1076,7 @@ NewFlash.prototype.update = function () {
     // if (this.game.shoot)
     //    this.stop = false;
 
-    if (this.time > 1) {
+    if (this.time > .5) {
         this.explosion = false;
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
         this.y = -600;// skip down after explosion
@@ -1033,7 +1112,7 @@ NewFlash.prototype.update = function () {
 NewFlash.prototype.draw = function (ctx) {
 
     if (this.explosion && !this.switchSprite) {
-        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 25, true, true);
+        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/flashEffect.png"), 0, 0, 40, 41, .05, 5, true, true);
         this.switchSprite = true;
 
     } else if (!this.explosion && this.switchSprite) {
@@ -1043,7 +1122,7 @@ NewFlash.prototype.draw = function (ctx) {
     }
 
     if (this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed
-        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1, this.explosion, this.currentFrame);
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1, this.explosion, this.currentFrame, true);
 
     Entity.prototype.draw.call(this);
 }
@@ -1208,10 +1287,10 @@ BossBullet.prototype.update = function () {
         this.add1 = true;
         // this.stop = true;
 
-    } else if (!this.explosion && (this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive)) {
+    } else if (!this.explosion && (this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive || this.game.entities[5 + 3].alive)) {
         // this.activate = true;
 
-        if (this.y >= 700 || this.y < -10) { // dont care aboute X now || this.x > 800 || this.x < -10) { // (this.y <= -100) 
+        if (this.y >= 1500 || this.y < -100) { // dont care aboute X now || this.x > 800 || this.x < -10) { // (this.y <= -100) 
             this.reset = 1;
             this.locate = false;
             this.random = Math.random() * (15 - 5) + 5;
@@ -1237,7 +1316,11 @@ BossBullet.prototype.update = function () {
                     if (this.game.entities[4 + 3].alive) {
                         this.x = this.game.entities[4 + 3].x + 88; // offset
                         this.y = this.game.entities[4 + 3].y + 135; // offset
-                    }
+                    }else
+                        if (this.game.entities[5 + 3].alive) {
+                            this.x = this.game.entities[5 + 3].x + 180; // offset
+                            this.y = this.game.entities[5 + 3].y + 280; // offset
+                        }
                 this.reset = 0;
             }
             if (this.game.entities[this.game.entities.length - 3].alive) {
@@ -1255,7 +1338,8 @@ BossBullet.prototype.update = function () {
             } else { this.y = -100; this.x = -100; }
         }
 
-    } else if (!this.explosion && (!this.game.entities[3 + 3].alive || !this.game.entities[4 + 3].alive)) { this.x = -25; this.y = -25; }
+    } else if (!this.explosion && (!this.game.entities[3 + 3].alive || !this.game.entities[4 + 3].alive || !this.game.entities[5 + 3].alive )) {
+    		this.x = -25; this.y = -25; }
 
     Entity.prototype.update.call(this);
 }
@@ -1272,7 +1356,7 @@ BossBullet.prototype.draw = function (ctx) {
 
     }
 
-    if ((this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive) && this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed)
+    if ((this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive || this.game.entities[5 + 3].alive ) && this.game.entities[this.game.entities.length - 3].alive) // no show after tank is destroyed)
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 2, this.explosion);
 
     Entity.prototype.draw.call(this);
@@ -1357,3 +1441,4 @@ ScrollBG6.prototype.draw = function (ctx) {
 
     Entity.prototype.draw.call(this);
 }
+
