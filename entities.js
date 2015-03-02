@@ -1569,8 +1569,8 @@ SmallCraft.prototype.constructor = SmallCraft;
 SmallCraft.prototype.update = function () {
 	
     if (this.type % 3 == 0 && this.type !== 0 && this.y ) {
-        /*this.angle += .05;
-        var max = 6;
+        this.angle += .05;
+        /*var max = 6;
         var min = 1;
         var s = Math.random() * (max - min) + min;
         this.speed = s;*/
