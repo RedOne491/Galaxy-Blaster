@@ -276,7 +276,7 @@ function Boss(game, type) {
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.1, 1, true, false);
         this.alive = true; 
         this.explode = false; 
-        this.hitPoint = 15;
+        this.hitPoint = 20;
         Entity.call(this, game, Math.random() * 800, -500);
     }
     if (this.type === 2) {
@@ -292,7 +292,7 @@ function Boss(game, type) {
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.1, 1, true, false);
         this.alive = false;
         this.explode = false; 
-        this.hitPoint = 40;
+        this.hitPoint = 50;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
     
@@ -934,7 +934,7 @@ Rocket.prototype.update = function () {
     if (this.time > 1) {
         this.explosion = false;
         if (this.game.entities[3 + 3].alive) {
-            this.game.entities[3 + 3].hitPoint--;
+            this.game.entities[3 + 3].hitPoint-= 3;
             if (this.game.entities[3 + 3].hitPoint === 0) {
                 this.game.entities[3 + 3].alive = false; 
                 this.game.entities[3 + 3].explode = true;     
@@ -943,7 +943,7 @@ Rocket.prototype.update = function () {
             }
         }
         if (this.game.entities[4 + 3].alive) {
-            this.game.entities[4 + 3].hitPoint--;
+            this.game.entities[4 + 3].hitPoint-= 3;
             if (this.game.entities[4 + 3].hitPoint === 0) {
                 this.game.entities[4 + 3].alive = false;
                 this.game.entities[4 + 3].explode = true; 
@@ -952,7 +952,7 @@ Rocket.prototype.update = function () {
             }
         }
         if (this.game.entities[5 + 3].alive) {
-            this.game.entities[5 + 3].hitPoint--;
+            this.game.entities[5 + 3].hitPoint-= 3;
             if (this.game.entities[5 + 3].hitPoint === 0) {
                 this.game.entities[5 + 3].alive = false;
                 this.game.entities[5 + 3].explode = true; 
