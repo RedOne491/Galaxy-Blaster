@@ -275,29 +275,29 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = true; 
-        this.explode = false; 
-        this.hitPoint = 20;
+        this.hitPoint = 5;
+        this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, -500);
     }
     if (this.type === 2) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
-        this.alive = false;
-        this.explode = false; 
-        this.hitPoint = 30;
+        this.alive = false; 
+        this.hitPoint = 5;
+        this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
     if (this.type === 3) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
-        this.alive = false;
-        this.explode = false; 
-        this.hitPoint = 50;
+        this.alive = false; 
+        this.hitPoint = 15;
+        this.radius = 374 / 2;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
     
     this.animExplosionBoss = new AnimationB(ASSET_MANAGER.getAsset(
-		"./img/explosion100px.png"), 0, 0, 100, 100, .05, 44, false, false); 
+		"./img/explosion100px.png"), 0, 0, 100, 100, .05, 44, true, false); 
     
     this.animDamaged1 = new AnimationB(ASSET_MANAGER.getAsset(
 	"./img/fire_damaged.png"), 0, 0, 47, 80, .05, 16, true, false); 
@@ -308,8 +308,9 @@ function Boss(game, type) {
     this.right = true;
     this.up = true;
     this.elapsedTime = 0;
-    this.firstFire = this.hitPoint * .5;
-    this.secondFire = this.hitPoint * .25;
+    this.explode = false; 
+    this.firstFire = this.hitPoint * .67;
+    this.secondFire = this.hitPoint * .33;
 }
 
 //Boss.prototype = new Entity();
@@ -318,19 +319,22 @@ function Boss(game, type) {
 Boss.prototype.update = function () {
     if (this.y < 0) this.y += 1;
     else if (this.alive) {
-        this.rocket;
+        var rocket, flash;
         for (i = 0; i < this.game.entities.length; i++) {
-            if (this.game.entities[i] instanceof Rocket) this.rocket = i;
+            if (this.game.entities[i] instanceof Rocket) rocket = i;
+            if (this.game.entities[i] instanceof NewFlash) flash = i;
         }
-        var x = this.x - this.game.entities[this.rocket].x;
-        var y = this.y - this.game.entities[this.rocket].y - 100;
+        var x = this.x - this.game.entities[rocket].x;
+        var y = this.y - this.game.entities[rocket].y - 100;
         var distance = Math.sqrt(x * x + y * y);
-
-        // console.log(this.game.clockTick);
-        //console.log(this.time);
+        
+        var x2 = this.x - this.game.entities[flash].x;
+        var y2 = this.y - this.game.entities[flash].y - 100;
+        var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
+  
         if (this.type === 1 || this.type === 3) {
-            if (distance < 500 && this.game.entities[this.rocket].y > this.y) {
-                if (this.x > this.game.entities[this.rocket].x) this.x += 1;
+            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || this.game.entities[flash].y > this.y)) {
+                if (this.x+this.radius > this.game.entities[rocket].x || this.x+this.radius > this.game.entities[flash].x) this.x += 1;
                 else this.x -= 1;
             } else {
                 if (this.x < -50) this.right = true;
@@ -344,8 +348,8 @@ Boss.prototype.update = function () {
             }
         }
         if (this.type === 2) {
-            if (distance < 500 && this.game.entities[this.rocket].y > this.y) {
-                if (this.x > this.game.entities[this.rocket].x) this.x += 2;
+            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || this.game.entities[flash].y > this.y)) {
+                if (this.x+this.radius > this.game.entities[rocket].x || this.x+this.radius > this.game.entities[flash].x) this.x += 2;
                 else this.x -= 2;
             } else {
                 if (this.x < -50) this.right = true;
@@ -366,8 +370,9 @@ Boss.prototype.update = function () {
     	if (this.elapsedTime > 1.6) {
     		this.y = 1000;
     		this.explode = false;
+    		this.elapsedTime = 0;
     	}
-    }
+    }  
 }
 
 Boss.prototype.draw = function (ctx) {
@@ -389,7 +394,7 @@ Boss.prototype.draw = function (ctx) {
     	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+10, this.y+40, 8, 1.5); 
 
 	    var snd = new Audio("./sounds/bossExploding.mp3"); // buffers automatically when created
-	    snd.play();
+	    snd.play(); 
     }
     if (this.explode && this.type == 3) {
     	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+50, this.y+80, 8, 3); 
@@ -426,6 +431,44 @@ MainCraft.prototype.update = function () {
     if (this.game.down && this.y < 520)
         this.y += 6;
 
+    if (this.game.entities[6].alive) {
+    	var x = this.x + 31 - this.game.entities[6].x - this.game.entities[6].radius;
+        var y = this.y + 37 - this.game.entities[6].y - this.game.entities[6].radius;
+        var distance = Math.sqrt(x * x + y * y);   
+        if (distance < this.game.entities[6].radius + 37) { 
+        	var delta = this.game.entities[6].radius + 37 - distance;
+            var difX = (this.x - this.game.entities[6].x)/distance;
+            var difY = (this.y - this.game.entities[6].y)/distance;
+            this.x += difX * delta / 2;
+            this.y += difY * delta / 2;
+        } 
+    }
+    if (this.game.entities[7].alive) {
+    	var x = this.x + 31 - this.game.entities[7].x - this.game.entities[7].radius;
+        var y = this.y + 37 - this.game.entities[7].y - this.game.entities[7].radius;
+        var distance = Math.sqrt(x * x + y * y); 
+        if (distance < this.game.entities[7].radius + 37) { 
+        	var delta = this.game.entities[7].radius + 37 - distance;
+            var difX = (this.x - this.game.entities[7].x)/distance;
+            var difY = (this.y - this.game.entities[7].y)/distance;
+            this.x += difX * delta / 2;
+            this.y += difY * delta / 2;
+        }
+    } 
+    if (this.game.entities[8].alive) {
+    	var x = this.x + 31 - this.game.entities[8].x - this.game.entities[8].radius;
+        var y = this.y + 37 - this.game.entities[8].y - this.game.entities[8].radius;
+        var distance = Math.sqrt(x * x + y * y); 
+        if (distance < this.game.entities[8].radius + 37) { 
+        	var delta = this.game.entities[8].radius + 37 - distance;
+            var difX = (this.x - this.game.entities[8].x)/distance;
+            var difY = (this.y - this.game.entities[8].y)/distance;
+            this.x += difX * delta / 2;
+            this.y += difY * delta / 2;
+        }
+    }
+    
+    
     Entity.prototype.update.call(this);
 }
 
@@ -788,7 +831,7 @@ FireBall.prototype.update = function () {
 	    if (distance < 100) {
 	        this.explosion = true;
 	        if (this.add1) {
-	            this.game.hp -= 90 //  this.game.entities[3].hpBar += 0.4;
+	            this.game.hp -= 5 //  this.game.entities[3].hpBar += 0.4;
 	            this.add1 = false;
 	        }
 	    }
@@ -1093,7 +1136,7 @@ NewFlash.prototype.update = function () {
         
         if (this.game.entities[3 + 3].alive) {
             this.game.entities[3 + 3].hitPoint--;
-            if (this.game.entities[3 + 3].hitPoint === 0) {
+            if (this.game.entities[3 + 3].hitPoint <= 0) {
                 this.game.entities[3 + 3].alive = false; 
                 this.game.entities[3 + 3].explode = true;     
                 this.game.entities[4 + 3].alive = true;
@@ -1102,7 +1145,7 @@ NewFlash.prototype.update = function () {
         }
         if (this.game.entities[4 + 3].alive) {
             this.game.entities[4 + 3].hitPoint--;
-            if (this.game.entities[4 + 3].hitPoint === 0) {
+            if (this.game.entities[4 + 3].hitPoint <= 0) {
                 this.game.entities[4 + 3].alive = false;
                 this.game.entities[4 + 3].explode = true; 
                 this.game.entities[5 + 3].alive = true;
@@ -1111,7 +1154,7 @@ NewFlash.prototype.update = function () {
         }
         if (this.game.entities[5 + 3].alive) {
             this.game.entities[5 + 3].hitPoint--;
-            if (this.game.entities[5 + 3].hitPoint === 0) {
+            if (this.game.entities[5 + 3].hitPoint <= 0) {
                 this.game.entities[5 + 3].alive = false;
                 this.game.entities[5 + 3].explode = true; 
             }

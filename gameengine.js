@@ -46,6 +46,7 @@ function GameEngine() {
     this.score = 0;
     this.hp = 100;
     this.spaceBar = false;
+    this.dead = false;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -151,6 +152,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("Game Over !", 100,200);
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("press space to start new game!",210,225);
+        this.dead = true;
     }
     if (this.score >= 15000) {
         this.draw();
@@ -160,10 +162,19 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("Your Score is "+this.score,250,235);
     }
-    if (this.spaceBar) {
+    if (this.spaceBar && this.dead) {
         this.hp = 100;
         this.score = 0;
-       
+        this.entities[6].alive = true;
+        this.entities[6].hitPoint = 5;  
+        this.entities[6].y = -500;
+        this.entities[7].alive = false;  
+        this.entities[7].hitPoint = 10;    
+        this.entities[7].y = 1000;
+        this.entities[8].alive = false;   
+        this.entities[8].hitPoint = 15;   
+        this.entities[8].y = 1000;
+        this.dead = false;
         console.log('game re-initialized');
     }
     
