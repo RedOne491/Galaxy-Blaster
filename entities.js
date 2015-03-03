@@ -1619,8 +1619,13 @@ SmallCraft.prototype.update = function () {
     var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
 
 
+     // collision on maincraft
+    var x3 = this.x - this.game.entities[this.game.entities.length - 3].x;
+    var y3 = this.y - this.game.entities[this.game.entities.length - 3].y;
+    var distance3 = Math.sqrt(x3 * x3 + y3 * y3);
+
     // this.explosionBoss = false;
-    if ((distance < 55 || distance1 < 55 || distance2 < 55) && this.time == 0) { // 30) {
+    if ((distance < 55 || distance1 < 55 || distance2 < 55 || distance3 < 55) && this.time == 0) { // 30) {
         this.explosion = true;
         if (distance < 55) 
             this.game.entities[this.game.entities.length - 5].explosion = true;
@@ -1628,6 +1633,8 @@ SmallCraft.prototype.update = function () {
            this.game.entities[this.game.entities.length - 6].explosion = true;
        else if (distance2 < 55)
            this.game.entities[13].explosion = true;
+       else if (distance3 < 55)
+           this.game.hp -= 5;
            
        this.game.entities[6].hitPoint++;
        this.game.entities[7].hitPoint++;
