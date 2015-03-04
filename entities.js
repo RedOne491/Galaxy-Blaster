@@ -275,7 +275,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = true; 
-        this.hitPoint = 5;
+        this.hitPoint = 5000000;// 5;
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, -500);
     }
@@ -283,7 +283,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = false; 
-        this.hitPoint = 5;
+        this.hitPoint = 50000; // 5
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
@@ -291,7 +291,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
         this.alive = false; 
-        this.hitPoint = 15;
+        this.hitPoint = 1500000; // 15;
         this.radius = 374 / 2;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
@@ -320,7 +320,7 @@ Boss.prototype.update = function () {
     if (this.y < 0) this.y += 1;
     else if (this.alive) {
         var rocket, flash;
-        for (i = 0; i < this.game.entities.length; i++) {
+        for (i = 0; i < this.game.entities.length; i++) { // look for either rocket or flash entities use istanceof for accesing
             if (this.game.entities[i] instanceof Rocket) rocket = i;
             if (this.game.entities[i] instanceof NewFlash) flash = i;
         }
@@ -1074,7 +1074,7 @@ Rocket.prototype.draw = function (ctx) {
 function NewFlash(game, type) {
     this.animation = new FlashAnimation(ASSET_MANAGER.getAsset("./img/bullet2.png"), 0, 0, 37, 100, 0.07, 6, true, true);
     // this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/expl.png"), 0, 0, 65, 81, .1, 5, true, true);
-    this.type = type;
+    this.type = type + 5;
     this.reset = 1;
     this.shoot = 0; // to be sure bullet afer fire have to get off screen after user release shoot button
     this.locate = false;
@@ -1089,7 +1089,7 @@ function NewFlash(game, type) {
 
     this.switchSprite = false;
 
-    Entity.call(this, game, 0, -800);
+    Entity.call(this, game, 0, -100000);
 }
 
 NewFlash.prototype = new Entity();
@@ -1104,14 +1104,14 @@ NewFlash.prototype.update = function () {
     var x, y, x1, y1, x2, y2;
 
     // this is for 1st boss
-    x = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 5].x + 70;
-    y = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 5].y - 20;
+    x = this.game.entities[3 + 3].x - this.x + 70;
+    y = this.game.entities[3 + 3].y - this.y - 20;
     // for 2nd miniboss
-    x1 = this.game.entities[7].x - this.game.entities[this.game.entities.length - 5].x + 70;
-    y1 = this.game.entities[7].y - this.game.entities[this.game.entities.length - 5].y - 20;
+    x1 = this.game.entities[7].x - this.x + 70;
+    y1 = this.game.entities[7].y - this.y - 20;
     // for 3nd boss
-    x2 = this.game.entities[8].x - this.game.entities[this.game.entities.length - 5].x + 150;
-    y2 = this.game.entities[8].y - this.game.entities[this.game.entities.length - 5].y + 100;
+    x2 = this.game.entities[8].x - this.x + 150;
+    y2 = this.game.entities[8].y - this.y + 100;
 
     var distance = Math.sqrt(x * x + y * y);
     var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
@@ -1161,7 +1161,7 @@ NewFlash.prototype.update = function () {
         }
         
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
-        this.y = -600;// skip down after explosion
+        this.y = -100000; // -600;// skip down after explosion
         this.time = 0;
         this.add1 = true;
         // this.stop = true;
@@ -1170,22 +1170,25 @@ NewFlash.prototype.update = function () {
 
 
         if (this.reset === 1) { // reset or initializing 1st bullet location base on main_craft.
-            if (this.type === 1) {
+            if (this.type % 3 === 0) {
                 this.x = this.game.entities[this.game.entities.length - 3].x - 7;
-                this.y = this.game.entities[this.game.entities.length - 3].y - 5;
-            } else {
+                this.y = this.game.entities[this.game.entities.length - 3].y - 15;
+            } else if (this.type % 2 == 0){
                 this.x = this.game.entities[this.game.entities.length - 3].x + 30;
-                this.y = this.game.entities[this.game.entities.length - 3].y - 5;
+                this.y = this.game.entities[this.game.entities.length - 3].y - 15;
+            } else {
+                this.x = this.game.entities[this.game.entities.length - 3].x + 12;
+                this.y = this.game.entities[this.game.entities.length - 3].y - 40;
             }
 
             this.reset = 0;
         }
         if (!this.explosion)
-            this.y -= 10;
+            this.y -= this.type;
 
     } else if (this.y > -100 && !this.explosion) {
 
-        this.y -= 10;
+        this.y -= this.type;
     }
 
     Entity.prototype.update.call(this);
@@ -1629,6 +1632,8 @@ function SmallCraft(game, type) {
     this.locationY = r1;
     this.speedType3 = s;
     this.angleSpeed = .05;
+    this.distBetweenFlash = 0;
+
     Entity.call(this, game, r, -r1);
 }
 
@@ -1646,15 +1651,30 @@ SmallCraft.prototype.update = function () {
         this.locationY += this.speedType3;
     }
 
-    // impact detection - 1st flash bullet
-    var x = this.x - this.game.entities[this.game.entities.length - 5].x;
-    var y = this.y - this.game.entities[this.game.entities.length - 5].y;
-    var distance = Math.sqrt(x * x + y * y);
+    //// impact detection - 1st flash bullet
+    //var x = this.x - this.game.entities[this.game.entities.length - 5].x;
+    //var y = this.y - this.game.entities[this.game.entities.length - 5].y;
+    //var distance = Math.sqrt(x * x + y * y);
 
-    // impact 2nd flash bullet
-    var x1 = this.x - this.game.entities[this.game.entities.length - 6].x;
-    var y1 = this.y - this.game.entities[this.game.entities.length - 6].y;
-    var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
+    //// impact 2nd flash bullet
+    //var x1 = this.x - this.game.entities[this.game.entities.length - 6].x;
+    //var y1 = this.y - this.game.entities[this.game.entities.length - 6].y;
+    //var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
+    // flash Bullet Collision detect
+    var bottom = this.game.entities.length - 5;
+    var track = 0;
+    var distBetweenFlash = 10000; // initial any value > than 55
+    for (var i = bottom; i > this.game.entities.length - 5 - 6; i--) { // keep number 5 for tracking purpose
+        // impact detection - 1st flash bullet
+        var x = this.x - this.game.entities[i].x;
+        var y = this.y - this.game.entities[i].y;
+        distBetweenFlash = Math.sqrt(x * x + y * y);
+        if (distBetweenFlash < 55) {
+            track = i;
+            break;
+        }
+    }
+
 
     // impact on rocket
     var x2 = this.x - this.game.entities[13].x;
@@ -1667,13 +1687,13 @@ SmallCraft.prototype.update = function () {
     var y3 = this.y - this.game.entities[this.game.entities.length - 3].y;
     var distance3 = Math.sqrt(x3 * x3 + y3 * y3);
 
-    // this.explosionBoss = false;
-    if ((distance < 55 || distance1 < 55 || distance2 < 55 || distance3 < 55) && this.time == 0) { // 30) {
+    // this.explosionBoss = false; || distance1 < 55
+    if ((distBetweenFlash < 55 || distance2 < 55 || distance3 < 55) && this.time == 0) { // 30) {
         this.explosion = true;
-        if (distance < 55) 
-            this.game.entities[this.game.entities.length - 5].explosion = true;
-       else if (distance1 < 55)
-           this.game.entities[this.game.entities.length - 6].explosion = true;
+        if (distBetweenFlash < 55)
+            this.game.entities[track].explosion = true; //.game.entities.length - 5].explosion = true;
+     //  else if (distance1 < 55)
+    //       this.game.entities[this.game.entities.length - 6].explosion = true;
        else if (distance2 < 55)
            this.game.entities[13].explosion = true;
        else if (distance3 < 55)

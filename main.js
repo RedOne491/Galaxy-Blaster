@@ -67,9 +67,6 @@ ASSET_MANAGER.downloadAll(function () {
     var rock2 = new Metero(gameEngine);
     var smallRock1 = new SmallMetero(gameEngine);
     //var smallRock2 = new SmallMetero(gameEngine);
-    // bullets
-    var flash = new NewFlash(gameEngine, 1);
-    var flash2 = new NewFlash(gameEngine, 2);
     var fireBullet = new FireBall(gameEngine, 1);
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
@@ -103,14 +100,17 @@ ASSET_MANAGER.downloadAll(function () {
         gameEngine.addEntity(bossBullet);
     }
 
-    for (var i = 0; i < 10; i++) {
+    // adding small enemy aircrafts
+    for (var i = 0; i < 25; i++) {
         var smallCraft = new SmallCraft(gameEngine, i);
         gameEngine.addEntity(smallCraft);
     }
 
-   // gameEngine.addEntity(smallCraft);
-    gameEngine.addEntity(flash);
-    gameEngine.addEntity(flash2);
+   // adding flash bullets
+    for (var i = 1; i < 12; i++) {
+        var flashBullet = new NewFlash(gameEngine, i);
+        gameEngine.addEntity(flashBullet);
+    }
     gameEngine.addEntity(health);
     gameEngine.addEntity(mainCraft);
     gameEngine.addEntity(score);

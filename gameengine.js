@@ -141,7 +141,7 @@ GameEngine.prototype.update = function () {
 }
 
 GameEngine.prototype.loop = function () {
-    if (this.hp > 0 && this.score < 15000) {
+    if (this.hp > 0 && this.score < 50000) {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
@@ -154,7 +154,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("press space to start new game!",210,225);
         this.dead = true;
     }
-    if (this.score >= 15000) {
+    if (this.score >= 50000) {
         this.draw();
         this.ctx.font='bold 100px Arial';
         this.ctx.fillStyle = "red";
