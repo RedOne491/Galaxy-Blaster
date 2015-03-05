@@ -901,6 +901,8 @@ FireBall.prototype.draw = function (ctx) {
     if (this.explosion && !this.switchSprite) {
         this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 25, true, true);
         this.switchSprite = true;
+        var snd = new Audio("./sounds/laser.wav"); // buffers automatically when created
+    	snd.play();
 
     } else if (!this.explosion && this.switchSprite) {
         if (this.type === 1 && (this.game.entities[6].alive || this.game.entities[7].alive))
@@ -909,6 +911,8 @@ FireBall.prototype.draw = function (ctx) {
         	this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/bigBlueBall.png"), 0, 0, 70, 70, .07, 4, true, true);
 
         this.switchSprite = false;
+        var snd = new Audio("./sounds/laser.wav"); // buffers automatically when created
+    	snd.play();
 
     }
 
@@ -1061,10 +1065,14 @@ Rocket.prototype.draw = function (ctx) {
     if (this.explosion && !this.switchSprite) {
         this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 25, true, true);
         this.switchSprite = true;
+        var snd = new Audio("./sounds/laser.wav"); // buffers automatically when created
+    	snd.play();
 
     } else if (!this.explosion && this.switchSprite) {
         this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/rocketA.png"), 0, 0, 33, 116, .1, 6, true, true);
         this.switchSprite = false;
+        var snd = new Audio("./sounds/laser.wav"); // buffers automatically when created
+    	snd.play();
 
     }
 
@@ -1204,10 +1212,14 @@ NewFlash.prototype.draw = function (ctx) {
     if (this.explosion && !this.switchSprite) {
         this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/flashEffect.png"), 0, 0, 40, 41, .05, 5, true, true);
         this.switchSprite = true;
+        var snd = new Audio("./sounds/laser.wav"); // buffers automatically when created
+    	snd.play();
 
     } else if (!this.explosion && this.switchSprite) {
         this.animation = this.animation = new FlashAnimation(ASSET_MANAGER.getAsset("./img/bullet2.png"), 0, 0, 37, 100, 0.07, 6, true, true);
         this.switchSprite = false;
+        var snd = new Audio("./sounds/laser.wav"); // buffers automatically when created
+    	snd.play();
 
     }
 
@@ -1806,6 +1818,8 @@ SmallCraft.prototype.draw = function (ctx) {
     if (this.explosion && !this.switchSprite) {
         this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 5, true, true);
         this.switchSprite = true;
+        var snd = new Audio("./sounds/explosion.wav"); // buffers automatically when created
+    	snd.play();
 
     } else if (!this.explosion && this.switchSprite) {
 
