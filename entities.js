@@ -261,6 +261,13 @@ Score.prototype.draw = function (ctx) {
     if (this.game.hp <= 0) {
         this.game.hp = 0;
     }
+    if (this.game.hp > 60) {
+	ctx.fillStyle = "green";
+    } else if (this.game.hp < 60 && this.game.hp > 25) {
+	ctx.fillStyle = "yellow";
+    } else {
+	ctx.fillStyle = "red";
+    }
     ctx.fillRect(50, 35, this.game.hp, 20);
 
 
