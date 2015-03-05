@@ -94,20 +94,20 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(enemy);
  
     var rangeX = -12;
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < 2; i++) {
         var bossBullet = new BossBullet(gameEngine, rangeX);
         rangeX += 2;
         gameEngine.addEntity(bossBullet);
     }
 
     // adding small enemy aircrafts
-    for (var i = 0; i < 25; i++) {
+    for (var i = 0; i < 5; i++) {
         var smallCraft = new SmallCraft(gameEngine, i);
         gameEngine.addEntity(smallCraft);
     }
 
    // adding flash bullets
-    for (var i = 1; i < 12; i++) {
+    for (var i = 1; i < 15; i++) {
         var flashBullet = new NewFlash(gameEngine, i);
         gameEngine.addEntity(flashBullet);
     }

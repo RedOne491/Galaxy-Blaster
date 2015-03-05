@@ -274,16 +274,16 @@ function Boss(game, type) {
     if (this.type === 1) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
-        this.alive = true; 
-        this.hitPoint = 5000000;// 5;
+        this.alive = true;  
+        this.hitPoint = 15;// 5;
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, -500);
     }
     if (this.type === 2) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
-        this.alive = false; 
-        this.hitPoint = 50000; // 5
+        this.alive = false;  
+        this.hitPoint = 15; // 5
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
@@ -291,7 +291,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
         this.alive = false; 
-        this.hitPoint = 1500000; // 15;
+        this.hitPoint = 15; // 15;
         this.radius = 374 / 2;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
@@ -311,12 +311,17 @@ function Boss(game, type) {
     this.explode = false; 
     this.firstFire = this.hitPoint * .67;
     this.secondFire = this.hitPoint * .33;
+    this.onScreen = false;
 }
 
 //Boss.prototype = new Entity();
 //Boss.prototype.constructor = Boss;
 
 Boss.prototype.update = function () {
+	if (this.y > -250 && this.y < 600 && (this.type === 1 || this.type === 2)) this.onScreen = true;
+	if (this.y > -400 && this.y < 600 && this.type === 3) this.onScreen = true;
+	if (this.onScreen) console.log("On screen");
+	if (!this.alive) this.onScreen = false;
     if (this.y < 0) this.y += 1;
     else if (this.alive) {
         var rocket, flash;

@@ -166,13 +166,14 @@ GameEngine.prototype.loop = function () {
         this.hp = 100;
         this.score = 0;
         this.entities[6].alive = true;
-        this.entities[6].hitPoint = 5;  
+        this.entities[6].onScreen = false;
+        this.entities[6].hitPoint = 150;  
         this.entities[6].y = -500;
         this.entities[7].alive = false;  
-        this.entities[7].hitPoint = 10;    
+        this.entities[7].hitPoint = 150;    
         this.entities[7].y = 1000;
         this.entities[8].alive = false;   
-        this.entities[8].hitPoint = 15;   
+        this.entities[8].hitPoint = 200;   
         this.entities[8].y = 1000;
         this.dead = false;
         console.log('game re-initialized');
