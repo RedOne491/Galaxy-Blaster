@@ -42,6 +42,8 @@ function GameEngine() {
     this.down = null;
     this.lastKeypressTime = 0;
     this.shoot = null;
+    this.level = 1;
+    this.lives = 3;
     this.flashShoot = null;
     this.score = 0;
     this.hp = 100;
@@ -57,7 +59,17 @@ GameEngine.prototype.init = function (ctx) {
     this.timer = new Timer();
     console.log('game initialized');
 }
+GameEngine.prototype.nextlevel = function () {
+    if (this.level < 4) {
+        this.level++;
+    }
+}
 
+GameEngine.prototype.addHp = function (value) {
+    if (this.hp < 100) {
+        this.hp += value;
+    }
+}
 GameEngine.prototype.start = function () {
     console.log("starting game");
     var that = this;
