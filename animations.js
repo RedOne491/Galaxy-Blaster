@@ -138,7 +138,7 @@ function EnemyAnimation(spriteSheet, startX, startY, frameWidth, frameHeight, fr
 }
 
 
-EnemyAnimation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy) { // wall arg added ???
+EnemyAnimation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy, type) { // wall arg added ???
 
     var scaleBy = scaleBy || 1;
     var frame = this.currentFrame();
@@ -155,8 +155,13 @@ EnemyAnimation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy) { // wa
 
 
     frame = this.currentFrame();
-    index = frame % 1;
-    vindex = Math.floor(frame / 1);
+    if (type === 1) {
+        index = frame % 5;
+        vindex = Math.floor(frame / 5);
+    } else {
+        index = frame % 1;
+        vindex = Math.floor(frame / 1);
+    }
 
     var locX = x;
     var locY = y;

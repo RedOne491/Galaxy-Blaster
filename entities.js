@@ -282,7 +282,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = true;  
-        this.hitPoint = 100;// 5;
+        this.hitPoint = 250;// 5;
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, -500);
     }
@@ -290,7 +290,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = false;  
-        this.hitPoint = 100; // 5
+        this.hitPoint = 250; // 5
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
@@ -298,7 +298,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
         this.alive = false; 
-        this.hitPoint = 200; // 15;
+        this.hitPoint = 350; // 15;
         this.radius = 374 / 2;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }

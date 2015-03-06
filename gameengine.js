@@ -153,7 +153,7 @@ GameEngine.prototype.update = function () {
 }
 
 GameEngine.prototype.loop = function () {
-    if (this.hp > 0 && this.score < 50000) {
+    if (this.hp > 0 && this.score < 10000) {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
@@ -166,7 +166,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("press space to start new game!",210,225);
         this.dead = true;
     }
-    if (this.score >= 50000) {
+    if (this.score >= 10000) {
         this.draw();
         this.ctx.font='bold 100px Arial';
         this.ctx.fillStyle = "red";
@@ -179,15 +179,15 @@ GameEngine.prototype.loop = function () {
         this.score = 0;
         this.entities[6].alive = true;
         this.entities[6].onScreen = false;
-        this.entities[6].hitPoint = 150;  
+        this.entities[6].hitPoint = 250;  
         this.entities[6].y = -500;
         this.entities[7].alive = false;  
         this.entities[7].onScreen = false;
-        this.entities[7].hitPoint = 150;    
+        this.entities[7].hitPoint = 250;    
         this.entities[7].y = 1000;
         this.entities[8].alive = false;   
         this.entities[8].onScreen = false;
-        this.entities[8].hitPoint = 200;   
+        this.entities[8].hitPoint = 350;   
         this.entities[8].y = 1000;
         this.dead = false;
         console.log('game re-initialized');
