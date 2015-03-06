@@ -282,7 +282,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = true;  
-        this.hitPoint = 15;// 5;
+        this.hitPoint = 100;// 5;
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, -500);
     }
@@ -290,7 +290,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = false;  
-        this.hitPoint = 15; // 5
+        this.hitPoint = 100; // 5
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
@@ -298,7 +298,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
         this.alive = false; 
-        this.hitPoint = 15; // 15;
+        this.hitPoint = 200; // 15;
         this.radius = 374 / 2;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
@@ -752,154 +752,177 @@ FireBall.prototype = new Entity();
 FireBall.prototype.constructor = FireBall;
 
 FireBall.prototype.update = function () {
+
     if (this.type === 1) {
-	    // impact detection
-	    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
-	    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
-	    var distance = Math.sqrt(x * x + y * y);
+        // impact detection
+        var x = this.x - this.game.entities[this.game.entities.length - 3].x ;
+        var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
+        var distance = Math.sqrt(x * x + y * y);
 	
-	    // console.log(this.game.clockTick);
-	    //console.log(this.time);
+        // console.log(this.game.clockTick);
+        //console.log(this.time);
 	
-	    if (distance < 100) {
-	        this.explosion = true;
-	        if (this.add1) {
-	            this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
-	            this.add1 = false;
-	        }
-	    }
+        if (distance < 60) {
+            this.explosion = true;
+            if (this.add1) {
+                this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
+                this.add1 = false;
+            }
+               this.x -= 33; // set explosion point for bullet
+               this.y -= 40;
+        }
 	
-	    if (this.explosion)
-	        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
-	    // end impact detection
+        if (this.explosion)
+            this.time += this.game.clockTick;// integer result this.time = 0 when console output;
+        // end impact detection
 	
-	    if (this.time > 1) {
-	        this.explosion = false;
-	        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
-	        this.y = 800;// skip down after explosion
-	        this.time = 0;
-	        this.add1 = true;
-	        // this.stop = true;
+        if (this.time > 1) {
+            this.explosion = false;
+            // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
+            this.y = 800;// skip down after explosion
+            this.time = 0;
+            this.add1 = true;
+            // this.stop = true;
 	
-	    } else if (!this.explosion && (this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive)) {
-	        // this.activate = true;
+        } else if (!this.explosion && (this.game.entities[3 + 3].alive || this.game.entities[4 + 3].alive)) {
+            // this.activate = true;
 	
-	        if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
-	            this.reset = 1;
-	            this.locate = false;
-	            this.random = Math.random() * (15 - 5) + 5;
+            if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
+                this.reset = 1;
+                this.locate = false;
+                this.random = Math.random() * (15 - 5) + 5;
 	
-	        }
+            }
 	
-	        if (!this.locate) {
-	            if (this.game.entities[3 + 3].alive) {
-	                tempX = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
-	                tempY = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
-	            } else
-	                if (this.game.entities[4 + 3].alive) {
-	                    tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
-	                    tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
-	                }
-	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
-	            this.sin = tempY / hypo;
-	            this.cos = tempX / hypo;
-	            this.locate = true;
-	        }
-	        if (true) {
-	            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss.
-	                if (this.game.entities[3 + 3].alive) {
-	                    this.x = this.game.entities[3 + 3].x + 88; // offset
-	                    this.y = this.game.entities[3 + 3].y + 135; // offset
-	                } else
-	                    if (this.game.entities[4 + 3].alive) {
-	                        this.x = this.game.entities[4 + 3].x + 88; // offset
-	                        this.y = this.game.entities[4 + 3].y + 135; // offset
-	                    }
-	                this.reset = 0;
-	            }
-	            if (this.game.entities[this.game.entities.length - 3].alive) {
-	                this.y -= this.sin * this.random;
-	                this.x -= this.cos * this.random;
-	            } else { this.y = -100; this.x = -100; }
+            if (!this.locate) {
+                if (this.game.entities[3 + 3].alive) {
+                    if (this.x >= this.game.entities[this.game.entities.length - 3].x + 50) {
+                        tempX = this.game.entities[6].x - this.game.entities[this.game.entities.length - 3].x + 200;
+                        tempY = this.game.entities[6].y - this.game.entities[this.game.entities.length - 3].y + 0;
+                    } else {
+                        tempX = this.game.entities[6].x - this.game.entities[this.game.entities.length - 3].x + 0;
+                        tempY = this.game.entities[6].y - this.game.entities[this.game.entities.length - 3].y + 0;
+                    }
+                } else
+                    if (this.game.entities[4 + 3].alive) {
+                        if (this.x >= this.game.entities[this.game.entities.length - 3].x + 50) {
+                            tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 200;
+                            tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 0;
+                        } else {
+                            tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 0;
+                            tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 0;
+                        }
+                    }
+
+                var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
+                this.sin = tempY / hypo;
+                this.cos = tempX / hypo;
+                this.locate = true;
+            }
+            if (true) {
+                if (this.reset === 1) { // reset or initializing 1st bullet location base on boss.
+                    if (this.game.entities[3 + 3].alive) {
+                        this.x = this.game.entities[3 + 3].x + 88; // offset
+                        this.y = this.game.entities[3 + 3].y + 135; // offset
+                    } else
+                        if (this.game.entities[4 + 3].alive) {
+                            this.x = this.game.entities[4 + 3].x + 88; // offset
+                            this.y = this.game.entities[4 + 3].y + 135; // offset
+                        }
+                    this.reset = 0;
+                }
+                if (this.game.entities[this.game.entities.length - 3].alive) {
+                    this.y -= this.sin * this.random;
+                    this.x -= this.cos * this.random;
+                } else { this.y = -100; this.x = -100; }
 	
-	        } else if (this.y < 700) {
-	            if (this.game.entities[this.game.entities.length - 3].alive) {
-	                this.y += this.sin * this.random;
-	                this.x += this.cos * this.random;
-	            } else { this.y = -100; this.x = -100; }
-	        }
+            } else if (this.y < 700) {
+                if (this.game.entities[this.game.entities.length - 3].alive) {
+                    this.y += this.sin * this.random;
+                    this.x += this.cos * this.random;
+                } else { this.y = -100; this.x = -100; }
+            }
 	
-	    } else if (!this.explosion && !this.game.entities[3 + 3].alive) { this.x = -25; this.y = -25; }
-	    else if (!this.explosion && !this.game.entities[4 + 3].alive) { this.x = -25; this.y = -25; }
+        } else if (!this.explosion && !this.game.entities[3 + 3].alive) { this.x = -25; this.y = -25; }
+        else if (!this.explosion && !this.game.entities[4 + 3].alive) { this.x = -25; this.y = -25; }
     }
+
+    /// bug : sometimes, there is an extra blue big bullet on top left screen after 2nd mini boss dead
+    if (!this.game.entities[6].alive && !this.game.entities[7].alive) this.game.entities[11].y = -800; // bug fix here: not firm yet, need more test
+    ///
     if (this.type === 2 && this.game.entities[5 + 3].alive) {
-    	var x = this.x - this.game.entities[this.game.entities.length - 3].x;
-	    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
-	    var distance = Math.sqrt(x * x + y * y);
+        var x = this.x - this.game.entities[this.game.entities.length - 3].x + 35;
+        var y = this.y - this.game.entities[this.game.entities.length - 3].y + 25;
+        var distance = Math.sqrt(x * x + y * y);
 	
-	    // console.log(this.game.clockTick);
-	    //console.log(this.time);
+        // console.log(this.game.clockTick);
+        //console.log(this.time);
 	
-	    if (distance < 100) {
-	        this.explosion = true;
-	        if (this.add1) {
-	            this.game.hp -= 5 //  this.game.entities[3].hpBar += 0.4;
-	            this.add1 = false;
-	        }
-	    }
+        if (distance < 50) {
+            this.explosion = true;
+            if (this.add1) {
+                this.game.hp -= 5 //  this.game.entities[3].hpBar += 0.4;
+                this.add1 = false;
+            }
+            this.x -= 33; // set explosion point for bullet
+            this.y -= 60;
+        }
 	
-	    if (this.explosion)
-	        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
-	    // end impact detection
+        if (this.explosion)
+            this.time += this.game.clockTick;// integer result this.time = 0 when console output;
+        // end impact detection
 	
-	    if (this.time > 1) {
-	        this.explosion = false;
-	        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
-	        this.y = 800;// skip down after explosion
-	        this.time = 0;
-	        this.add1 = true;
-	        // this.stop = true;
+        if (this.time > 1) {
+            this.explosion = false;
+            // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
+            this.y = 800;// skip down after explosion
+            this.time = 0;
+            this.add1 = true;
+            // this.stop = true;
 	
-	    } else if (!this.explosion) {
-	        // this.activate = true;
+        } else if (!this.explosion) {
+            // this.activate = true;
 	
-	        if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
-	            this.reset = 1;
-	            this.locate = false;
-	            this.random = Math.random() * (15 - 5) + 5;
+            if (this.y >= 700 || this.y < -10 || this.x > 800 || this.x < -10) { // (this.y <= -100) 
+                this.reset = 1;
+                this.locate = false;
+                this.random = Math.random() * (15 - 5) + 5;
 	
-	        }
+            }
 	
-	        if (!this.locate) { 
-	            tempX = this.game.entities[5 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
-	            tempY = this.game.entities[5 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
+            if (!this.locate) { 
+                tempX = this.game.entities[5 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+                tempY = this.game.entities[5 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
 	            
-	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
-	            this.sin = tempY / hypo;
-	            this.cos = tempX / hypo;
-	            this.locate = true;
-	        }
-	        if (true) {
-	            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss. 
+                var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
+                this.sin = tempY / hypo;
+                this.cos = tempX / hypo;
+                this.locate = true;
+            }
+            if (true) {
+                if (this.reset === 1) { // reset or initializing 1st bullet location base on boss. 
                     this.x = this.game.entities[5 + 3].x + 180; // offset
                     this.y = this.game.entities[5 + 3].y + 280; // offset
                  
-	                this.reset = 0;
-	            }
-	            if (this.game.entities[this.game.entities.length - 3].alive) {
-	                this.y -= this.sin * this.random;
-	                this.x -= this.cos * this.random;
-	            } else { this.y = -100; this.x = -100; }
+                    this.reset = 0;
+                }
+                if (this.game.entities[this.game.entities.length - 3].alive) {
+                    this.y -= this.sin * this.random;
+                    this.x -= this.cos * this.random;
+                } else { this.y = -100; this.x = -100; }
 	
-	        } else if (this.y < 700) {
-	            if (this.game.entities[this.game.entities.length - 3].alive) {
-	                this.y += this.sin * this.random;
-	                this.x += this.cos * this.random;
-	            } else { this.y = -100; this.x = -100; }
-	        }
+            } else if (this.y < 700) {
+                if (this.game.entities[this.game.entities.length - 3].alive) {
+                    this.y += this.sin * this.random;
+                    this.x += this.cos * this.random;
+                } else { this.y = -100; this.x = -100; }
+            }
 	
-	    } else if (!this.explosion) { this.x = -25; this.y = -25; } 
+        } else if (!this.explosion) { this.x = -25; this.y = -25; } 
     } 
+
+    ///////
+   
     //    Entity.prototype.update.call(this);
 }
 
@@ -1140,7 +1163,7 @@ NewFlash.prototype.update = function () {
     if (distance < 80 || distance1 < 80 || distance2 < 150) {
         this.explosion = true;
         if (this.add1) {
-            this.game.score += 200;//    this.game.entities[2].hpBar++;
+           // this.game.score += 200;//    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
         //this.done = false;
@@ -1157,6 +1180,7 @@ NewFlash.prototype.update = function () {
         if (this.game.entities[3 + 3].alive) {
             this.game.entities[3 + 3].hitPoint--;
             if (this.game.entities[3 + 3].hitPoint <= 0) {
+                this.game.score += 500;
                 this.game.entities[3 + 3].alive = false; 
                 this.game.entities[3 + 3].explode = true;     
                 this.game.entities[4 + 3].alive = true;
@@ -1166,6 +1190,7 @@ NewFlash.prototype.update = function () {
         if (this.game.entities[4 + 3].alive) {
             this.game.entities[4 + 3].hitPoint--;
             if (this.game.entities[4 + 3].hitPoint <= 0) {
+                this.game.score += 1000;
                 this.game.entities[4 + 3].alive = false;
                 this.game.entities[4 + 3].explode = true; 
                 this.game.entities[5 + 3].alive = true;
@@ -1175,6 +1200,7 @@ NewFlash.prototype.update = function () {
         if (this.game.entities[5 + 3].alive) {
             this.game.entities[5 + 3].hitPoint--;
             if (this.game.entities[5 + 3].hitPoint <= 0) {
+                this.game.score += 2000;
                 this.game.entities[5 + 3].alive = false;
                 this.game.entities[5 + 3].explode = true; 
             }
@@ -1372,16 +1398,19 @@ BossBullet.prototype.constructor = BossBullet;
 BossBullet.prototype.update = function () {
 
     // impact detection
-    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
-    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
+    var x = this.x - (this.game.entities[this.game.entities.length - 3].x + 30 ); // set x location to center
+    var y = this.y - (this.game.entities[this.game.entities.length - 3].y + 35) ; // set for y
     var distance = Math.sqrt(x * x + y * y);
 
-    if (distance < 100) {
+    if (distance < 30) {
         this.explosion = true;
         if (this.add1) {
             this.game.hp -= 10;//  this.game.entities[3].hpBar += 0.4;
             this.add1 = false;
         }
+
+        this.x -= 33; // set location for explosion to center
+        this.y -= 40; 
     }
 
     if (this.explosion)
@@ -1551,8 +1580,12 @@ ScrollBG6.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-function Health(game) {
-    this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/heart.png"), 0, 0, 35, 31, 100, 1, true, true);
+function Health(game, type) {
+    this.type = type;
+    if (this.type === 1) {
+        this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/point.png"), 0, 0, 50, 40, .05, 5, true, true);
+    } else
+        this.animation = new EnemyAnimation(ASSET_MANAGER.getAsset("./img/heart.png"), 0, 0, 35, 31, 100, 1, true, true);
 
     this.currentTime = 0;
     this.nextTime = 5;
@@ -1568,7 +1601,9 @@ Health.prototype.constructor = Health;
 
 Health.prototype.update = function () {
 
-    if (this.currentTime > 8 ) {// this.nextTime) {
+    if (this.currentTime > 5 && this.type === 1) {
+        this.y += 2;
+    } else  if (this.currentTime > 8 && this.type !== 1) {// this.nextTime) {
         this.y += 3;
     }
 
@@ -1580,9 +1615,13 @@ Health.prototype.update = function () {
     if (distance < 100) {
        // this.hit= true; // hit the aircraft
         //if (this.add1) {
-        this.game.hp += 30;//  this.game.entities[3].hpBar += 0.4;
-        //    this.add1 = false;
-        //}
+        if (this.type === 1) {
+            this.game.score += 100; // add score 100 each time
+        } else {
+            this.game.hp += 30;
+            if (this.game.hp > 100) 
+                this.game.hp = 100; // max hp is 100
+        }
         this.y = -40;
         this.currentTime = 0;
         var maxX = 700;
