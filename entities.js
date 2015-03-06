@@ -754,21 +754,19 @@ FireBall.prototype.constructor = FireBall;
 FireBall.prototype.update = function () {
     if (this.type === 1) {
 	    // impact detection
-	    var x = this.x - (this.game.entities[this.game.entities.length - 3].x + 30);
-	    var y = this.y - (this.game.entities[this.game.entities.length - 3].y + 25);
+	    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+	    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
 	    var distance = Math.sqrt(x * x + y * y);
 	
 	    // console.log(this.game.clockTick);
 	    //console.log(this.time);
 	
-	    if (distance < 30) {
+	    if (distance < 100) {
 	        this.explosion = true;
 	        if (this.add1) {
 	            this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
 	            this.add1 = false;
 	        }
-	        this.x -= 33; // set explosion point for bullet
-	        this.y -= 40;
 	    }
 	
 	    if (this.explosion)
@@ -794,31 +792,20 @@ FireBall.prototype.update = function () {
 	        }
 	
 	        if (!this.locate) {
-	                if (this.x >= this.game.entities[this.game.entities.length - 3].x + 50) {
-	                    tempX = this.game.entities[6].x - this.game.entities[this.game.entities.length - 3].x + 200;
-	                    tempY = this.game.entities[6].y - this.game.entities[this.game.entities.length - 3].y + 0;
-	                } else {
-	                    tempX = this.game.entities[6].x - this.game.entities[this.game.entities.length - 3].x + 0;
-	                    tempY = this.game.entities[6].y - this.game.entities[this.game.entities.length - 3].y + 0;
-	                }
-                    ///
+	            if (this.game.entities[3 + 3].alive) {
+	                tempX = this.game.entities[3 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	                tempY = this.game.entities[3 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
 	            } else
 	                if (this.game.entities[4 + 3].alive) {
-	                    if (this.x >= this.game.entities[this.game.entities.length - 3].x + 50) {
-	                        tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 200;
-	                        tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 0;
-	                    } else {
-	                        tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 200;
-	                        tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 0;
-	                    }
-
+	                    tempX = this.game.entities[4 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	                    tempY = this.game.entities[4 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
 	                }
 	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
 	            this.sin = tempY / hypo;
 	            this.cos = tempX / hypo;
 	            this.locate = true;
 	        }
-	       // if (true) {
+	        if (true) {
 	            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss.
 	                if (this.game.entities[3 + 3].alive) {
 	                    this.x = this.game.entities[3 + 3].x + 88; // offset
@@ -835,12 +822,12 @@ FireBall.prototype.update = function () {
 	                this.x -= this.cos * this.random;
 	            } else { this.y = -100; this.x = -100; }
 	
-	        //} else if (this.y < 700) {
-	        //    if (this.game.entities[this.game.entities.length - 3].alive) {
-	        //        this.y += this.cos + this.random;
-	        //        this.x += this.sin + this.random;
-	        //    } else { this.y = -100; this.x = -100; }
-	        //}
+	        } else if (this.y < 700) {
+	            if (this.game.entities[this.game.entities.length - 3].alive) {
+	                this.y += this.sin * this.random;
+	                this.x += this.cos * this.random;
+	            } else { this.y = -100; this.x = -100; }
+	        }
 	
 	    } else if (!this.explosion && !this.game.entities[3 + 3].alive) { this.x = -25; this.y = -25; }
 	    else if (!this.explosion && !this.game.entities[4 + 3].alive) { this.x = -25; this.y = -25; }
@@ -884,15 +871,15 @@ FireBall.prototype.update = function () {
 	        }
 	
 	        if (!this.locate) { 
-	            tempX = this.game.entities[5 + 3].x - this.game.entities[this.game.entities.length - 3].x + 30; //140;
-	            tempY = this.game.entities[5 + 3].y - this.game.entities[this.game.entities.length - 3].y + 35; //240;
+	            tempX = this.game.entities[5 + 3].x - this.game.entities[this.game.entities.length - 3].x + 140;
+	            tempY = this.game.entities[5 + 3].y - this.game.entities[this.game.entities.length - 3].y + 240;
 	            
-	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY); // distance between m.ain-craft and bullet
+	            var hypo = Math.sqrt(tempX * tempX + tempY * tempY);
 	            this.sin = tempY / hypo;
 	            this.cos = tempX / hypo;
 	            this.locate = true;
 	        }
-	       // if (true) {
+	        if (true) {
 	            if (this.reset === 1) { // reset or initializing 1st bullet location base on boss. 
                     this.x = this.game.entities[5 + 3].x + 180; // offset
                     this.y = this.game.entities[5 + 3].y + 280; // offset
@@ -900,23 +887,16 @@ FireBall.prototype.update = function () {
 	                this.reset = 0;
 	            }
 	            if (this.game.entities[this.game.entities.length - 3].alive) {
-
-	                if (this.x <= this.game.entities[this.game.entities.length - 3].x) {
-	                    this.y -= this.sin + this.random; // was * , now +
-	                    this.x -= this.cos + this.random;
-	                } else {
-	                    this.y -= this.cos + this.random; // was * , now +
-	                    this.x += this.sin + this.random;
-	                }
+	                this.y -= this.sin * this.random;
+	                this.x -= this.cos * this.random;
 	            } else { this.y = -100; this.x = -100; }
 	
-	      //  } 
-	        //else if (this.y < 700) {
-	        //    if (this.game.entities[this.game.entities.length - 3].alive) {
-	        //        this.y += this.sin * this.random;
-	        //        this.x += this.cos * this.random;
-	        //    } else { this.y = -100; this.x = -100; }
-	        //}
+	        } else if (this.y < 700) {
+	            if (this.game.entities[this.game.entities.length - 3].alive) {
+	                this.y += this.sin * this.random;
+	                this.x += this.cos * this.random;
+	            } else { this.y = -100; this.x = -100; }
+	        }
 	
 	    } else if (!this.explosion) { this.x = -25; this.y = -25; } 
     } 
@@ -1392,19 +1372,16 @@ BossBullet.prototype.constructor = BossBullet;
 BossBullet.prototype.update = function () {
 
     // impact detection
-    var x = this.x - (this.game.entities[this.game.entities.length - 3].x + 30 ); // set x location to center
-    var y = this.y - (this.game.entities[this.game.entities.length - 3].y + 35) ; // set for y
+    var x = this.x - this.game.entities[this.game.entities.length - 3].x;
+    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
     var distance = Math.sqrt(x * x + y * y);
 
-    if (distance < 30) {
+    if (distance < 100) {
         this.explosion = true;
         if (this.add1) {
             this.game.hp -= 10;//  this.game.entities[3].hpBar += 0.4;
             this.add1 = false;
         }
-
-        this.x -= 33; // set location for explosion to center
-        this.y -= 40; 
     }
 
     if (this.explosion)
@@ -1603,7 +1580,7 @@ Health.prototype.update = function () {
     if (distance < 100) {
        // this.hit= true; // hit the aircraft
         //if (this.add1) {
-        this.game.hp += 3000;//  this.game.entities[3].hpBar += 0.4;
+        this.game.hp += 30;//  this.game.entities[3].hpBar += 0.4;
         //    this.add1 = false;
         //}
         this.y = -40;
