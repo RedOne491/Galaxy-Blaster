@@ -1653,8 +1653,10 @@ Health.prototype.update = function () {
 }
 
 Health.prototype.draw = function (ctx) {
-
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+    if (this.type === 1) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1);
+    } else
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
 
     Entity.prototype.draw.call(this);
 }

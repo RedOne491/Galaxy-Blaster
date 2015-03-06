@@ -71,7 +71,7 @@ ASSET_MANAGER.downloadAll(function () {
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
     var health = new Health(gameEngine);
-    var point = new Health(gameEngine);
+    var point = new Health(gameEngine, 1);
 //var smallCraft = new SmallCraft(gameEngine);
 
     // adding background
@@ -113,7 +113,7 @@ ASSET_MANAGER.downloadAll(function () {
         gameEngine.addEntity(flashBullet);
     }
     gameEngine.addEntity(health);
-  //  gameEngine.addEntity(point);
+    gameEngine.addEntity(point);
     gameEngine.addEntity(mainCraft);
     gameEngine.addEntity(score);
     gameEngine.addEntity(smallRock1);
