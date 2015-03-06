@@ -844,7 +844,8 @@ FireBall.prototype.update = function () {
 	
 	    } else if (!this.explosion && !this.game.entities[3 + 3].alive) { this.x = -25; this.y = -25; }
 	    else if (!this.explosion && !this.game.entities[4 + 3].alive) { this.x = -25; this.y = -25; }
-    }
+    
+
     if (this.type === 2 && this.game.entities[5 + 3].alive) {
     	var x = this.x - this.game.entities[this.game.entities.length - 3].x;
 	    var y = this.y - this.game.entities[this.game.entities.length - 3].y - 100;
