@@ -233,7 +233,7 @@ Background.prototype.draw = function (ctx) {
 
 
 
-// The score and the hp bar
+// The score , the hp bar and the lives
 function Score(game) {
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/score.png"), 0, 0, 133, 43, 100, 1, true, false);
     Entity.call(this, game, 0, 0);
@@ -254,10 +254,15 @@ Score.prototype.draw = function (ctx) {
 
     this.ctx = ctx;
     Entity.prototype.draw.call(this);
+    hx = 30;
+    for(i = 0 ; i < this.game.lives ; i++) {
+	ctx.drawImage(ASSET_MANAGER.getAsset("./img/maincraft.png"),hx,10);
+	hx += 35;
+    }
     ctx.font = 'bold 20px Arial';
     ctx.fillStyle = "red";
-    ctx.fillText("Score : " + this.game.score, 10, 30);
-    ctx.fillText("HP  ", 10, 50);
+    ctx.fillText("Score : " + this.game.score, 10, 61);
+    ctx.fillText("HP  ", 10, 81);
     if (this.game.hp <= 0) {
         this.game.hp = 0;
     }
@@ -268,7 +273,7 @@ Score.prototype.draw = function (ctx) {
     } else {
 	ctx.fillStyle = "red";
     }
-    ctx.fillRect(50, 35, this.game.hp, 20);
+    ctx.fillRect(50, 66, this.game.hp, 20);
 
 
 }
@@ -282,7 +287,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 			"./img/boss_mid2.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = true;  
-        this.hitPoint = 250;// 5;
+        this.hitPoint = 100;// 5;
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, -500);
     }
@@ -290,7 +295,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
     		"./img/boss_mid3.png"), 0, 0, 187, 150, 0.5, 3, true, false);
         this.alive = false;  
-        this.hitPoint = 250; // 5
+        this.hitPoint = 100; // 5
         this.radius = 187 / 2;
         Entity.call(this, game, Math.random() * 800, 1000);
     }
@@ -298,7 +303,7 @@ function Boss(game, type) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
 	   		"./img/boss1.png"), 0, 0, 374, 300, 0.5, 3, true, false);
         this.alive = false; 
-        this.hitPoint = 350; // 15;
+        this.hitPoint = 100; // 15;
         this.radius = 374 / 2;
         Entity.call(this, game, Math.random() * 800, 1000); 
     }
@@ -384,10 +389,13 @@ Boss.prototype.update = function () {
     		this.explode = false;
     		this.elapsedTime = 0;
     	}
-    }  
+    }
+    
+   
 }
 
 Boss.prototype.draw = function (ctx) {
+    this.ctx = ctx;
     this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 3, 1);
     
     if (this.hitPoint < this.firstFire && this.type != 3)
@@ -412,6 +420,19 @@ Boss.prototype.draw = function (ctx) {
     	this.animExplosionBoss.drawFrame(this.game.clockTick, ctx, this.x+50, this.y+80, 8, 3); 
     	var snd = new Audio("./sounds/bossExploding.mp3"); // buffers automatically when created
 	    snd.play(); 
+    }
+     if (this.onScreen) {
+	this.ctx.font = 'bold 20px Arial';
+	this.ctx.fillStyle = "red";
+	this.ctx.fillText("BOSS HP ", 600, 35);
+	if (this.hitPoint > 60 ) {
+	    this.ctx.fillStyle = "green";
+	} else if (this.hitPoint < 60 && this.hitPoint > 25) {
+	    this.ctx.fillStyle = "yellow";
+	} else {
+	    this.ctx.fillStyle = "red";
+	}
+	this.ctx.fillRect(600,50 ,this.hitPoint, 20);
     }
 }
 

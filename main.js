@@ -4,6 +4,7 @@
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/bg1.png");
+ASSET_MANAGER.queueDownload("./img/maincraft.png");
 ASSET_MANAGER.queueDownload("./img/bg2.png");
 ASSET_MANAGER.queueDownload("./img/bg3.png");
 ASSET_MANAGER.queueDownload("./img/bg4.png");
@@ -108,7 +109,7 @@ ASSET_MANAGER.downloadAll(function () {
     }
 
    // adding flash bullets
-    for (var i = 1; i < 15; i++) {
+    for (var i = 1; i < 10; i++) {
         var flashBullet = new NewFlash(gameEngine, i);
         gameEngine.addEntity(flashBullet);
     }

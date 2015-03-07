@@ -60,14 +60,22 @@ GameEngine.prototype.init = function (ctx) {
     console.log('game initialized');
 }
 GameEngine.prototype.nextlevel = function () {
-    if (this.level < 4) {
+    if (this.level < 3) {
         this.level++;
     }
 }
 
+GameEngine.prototype.nextlive = function () {
+    if (this.lives > 0) {
+        this.lives--;
+    }
+}
 GameEngine.prototype.addHp = function (value) {
     if (this.hp < 100) {
         this.hp += value;
+        if (this.hp > 100) {
+           this.hp = 100;
+        }
     }
 }
 GameEngine.prototype.start = function () {
@@ -153,10 +161,17 @@ GameEngine.prototype.update = function () {
 }
 
 GameEngine.prototype.loop = function () {
-    if (this.hp > 0 && this.score < 10000) {
+    if (this.hp > 0 && this.level < 4) {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
+    } else if (this.hp <= 0 && this.lives != 0){
+        this.clockTick = this.timer.tick();
+        this.update();
+        this.draw();
+        this.hp = 100;
+        this.nextlive();
+        
     } else {
         this.draw();
         this.ctx.font='bold 100px Arial';
@@ -177,6 +192,7 @@ GameEngine.prototype.loop = function () {
     if (this.spaceBar && this.dead) {
         this.hp = 100;
         this.score = 0;
+        this.lives = 3;
         this.entities[6].alive = true;
         this.entities[6].onScreen = false;
         this.entities[6].hitPoint = 250;  
