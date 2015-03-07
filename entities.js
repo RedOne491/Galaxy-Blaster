@@ -1810,7 +1810,7 @@ SmallCraft.prototype.update = function () {
 
     }  else if (this.y > -950 && !this.explosion) {
         
-        if (this.type % 3 == 0) {
+        if (this.type % 3 == 0 && this.type !== 0) {
             this.x = 100 * Math.cos(this.angle) + this.locationX;
             this.y = 100 * Math.sin(this.angle) + this.locationY;
    	
