@@ -1108,6 +1108,9 @@ Rocket.prototype.update = function () {
         this.y -= 6;
     }
 
+    if (this.y < -100)
+        this.y = -1000; // put at the top and wait to avoid collision with enemies
+
     Entity.prototype.update.call(this);
 }
 
