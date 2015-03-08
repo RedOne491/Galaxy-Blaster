@@ -1256,7 +1256,10 @@ NewFlash.prototype.update = function () {
     } else if (this.y > -100 && !this.explosion) {
 
         this.y -= this.type;
+
     }
+    if (this.y < -100 )
+        this.y = -1000; // put it on the top and wait for user to shoot
 
     Entity.prototype.update.call(this);
 }
