@@ -31,7 +31,9 @@ ASSET_MANAGER.queueDownload("./img/rocketA.png");
 ASSET_MANAGER.queueDownload("./img/bossBullet.png");
 ASSET_MANAGER.queueDownload("./img/flashEffect.png");
 ASSET_MANAGER.queueDownload("./img/heart.png");
-ASSET_MANAGER.queueDownload("./img/point.png");
+ASSET_MANAGER.queueDownload("./img/point.png"); 
+ASSET_MANAGER.queueDownload("./img/smallBullet.png");
+
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");
     var canvas = document.getElementById('gameWorld');
@@ -94,12 +96,18 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(fireBulletBig); //Blue smart bomb (FireBall)
     gameEngine.addEntity(rocket);
     gameEngine.addEntity(enemy);
- 
+    
     var rangeX = -12;
     for (var i = 0; i < 12; i++) { 
         var bossBullet = new BossBullet(gameEngine, rangeX);
         rangeX += 2;
         gameEngine.addEntity(bossBullet);
+    }
+    // adding bullet for small enemy ships
+    for (var i = 0; i < 5; i++) {
+        var smallBullet = new SmallBullet(gameEngine, i, 0);
+        rangeX += 0;
+        gameEngine.addEntity(smallBullet);
     }
 
     // adding small enemy aircrafts
