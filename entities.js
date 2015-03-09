@@ -289,7 +289,7 @@ function Boss(game, type) {
         this.alive = true;  
         this.hitPoint = 100;// 5;
         this.radius = 187 / 2;
-        Entity.call(this, game, Math.random() * 800, -500);
+        Entity.call(this, game, Math.random() * 613, -500);
     }
     if (this.type === 2) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
@@ -297,7 +297,7 @@ function Boss(game, type) {
         this.alive = false;  
         this.hitPoint = 100; // 5
         this.radius = 187 / 2;
-        Entity.call(this, game, Math.random() * 800, 1000);
+        Entity.call(this, game, Math.random() * 613, 1000);
     }
     if (this.type === 3) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
@@ -305,7 +305,7 @@ function Boss(game, type) {
         this.alive = false; 
         this.hitPoint = 100; // 15;
         this.radius = 374 / 2;
-        Entity.call(this, game, Math.random() * 800, 1000); 
+        Entity.call(this, game, Math.random() * 426, 1000); 
     }
     
     this.animExplosionBoss = new AnimationB(ASSET_MANAGER.getAsset(
@@ -349,13 +349,15 @@ Boss.prototype.update = function () {
         var y2 = this.y - this.game.entities[flash].y - 100;
         var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
   
-        if (this.type === 1 || this.type === 3) {
-            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || this.game.entities[flash].y > this.y)) {
-                if (this.x+this.radius > this.game.entities[rocket].x || this.x+this.radius > this.game.entities[flash].x) this.x += 1;
-                else this.x -= 1;
+        if (this.type === 1) {
+            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || 
+            	this.game.entities[flash].y > this.y)) {
+                if ((this.x+this.radius > this.game.entities[rocket].x+16 || 
+                	this.x+this.radius > this.game.entities[flash].x+18) && this.x < 613) this.x += 1;
+                else if (this.x > 0) this.x -= 1; 
             } else {
-                if (this.x < -50) this.right = true;
-                if (this.x > 700) this.right = false;
+                if (this.x < 0) this.right = true;
+                if (this.x > 613) this.right = false;
                 if (this.y < 1) this.up = false;
                 if (this.y > 200) this.up = true;
                 if (this.right) this.x += 1;
@@ -365,12 +367,14 @@ Boss.prototype.update = function () {
             }
         }
         if (this.type === 2) {
-            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || this.game.entities[flash].y > this.y)) {
-                if (this.x+this.radius > this.game.entities[rocket].x || this.x+this.radius > this.game.entities[flash].x) this.x += 2;
-                else this.x -= 2;
+            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || 
+            	this.game.entities[flash].y > this.y)) {
+                if ((this.x+this.radius > this.game.entities[rocket].x+16 || 
+                	this.x+this.radius > this.game.entities[flash].x+18) && this.x < 613) this.x += 2;
+                else if (this.x > 0) this.x -= 2;
             } else {
-                if (this.x < -50) this.right = true;
-                if (this.x > 700) this.right = false;
+                if (this.x < 0) this.right = true;
+                if (this.x > 613) this.right = false;
                 if (this.y < 1) this.up = false;
                 if (this.y > 200) this.up = true;
                 if (this.right) this.x += 2;
@@ -378,6 +382,23 @@ Boss.prototype.update = function () {
                 if (this.up) this.y -= 2;
                 else this.y += 2;
  
+            }
+        }
+        if (this.type === 3) {
+            if ((distance < 500 || distance2 < 500) && (this.game.entities[rocket].y > this.y || 
+            	this.game.entities[flash].y > this.y)) { 
+                if ((this.x+this.radius > this.game.entities[rocket].x+16 || 
+                    this.x+this.radius > this.game.entities[flash].x+18) && this.x < 426) this.x += 1;
+                else if (this.x > 0) this.x -= 1;
+            } else {
+                if (this.x < 0) this.right = true;
+                if (this.x > 426) this.right = false;
+                if (this.y < 1) this.up = false;
+                if (this.y > 200) this.up = true;
+                if (this.right) this.x += 1;
+                else this.x -= 1;
+                if (this.up) this.y -= 1;
+                else this.y += 1;
             }
         }
     }
