@@ -1174,7 +1174,7 @@ function NewFlash(game, type) {
     this.time = 0;
     this.stop = false;
     this.add1 = true;
-
+    this.rockIndex = 0;
     this.switchSprite = false;
 
     Entity.call(this, game, 0, -100000);
@@ -1189,7 +1189,16 @@ NewFlash.prototype.update = function () {
         this.reset = 1;
         // this.locate = false;
     }
-    var x, y, x1, y1, x2, y2;
+    for (i = 0; i < this.game.entities.length; i++) { // look for small enimies location in the list
+        if (this.game.entities[i] instanceof Metero) {   
+                this.rockIndex = i;
+                break;
+        }
+    }
+
+
+
+    var x, y, x1, y1, x2, y2, x3, y3;
 
     // this is for 1st boss
     x = this.game.entities[3 + 3].x - this.x + 70;
@@ -1201,11 +1210,19 @@ NewFlash.prototype.update = function () {
     x2 = this.game.entities[8].x - this.x + 150;
     y2 = this.game.entities[8].y - this.y + 100;
 
+    // for rock 1
+    x3 = this.game.entities[this.rockIndex].x - this.x + 10;
+    y3 = this.game.entities[this.rockIndex].y - this.y - 3;
+    x4 = this.game.entities[this.rockIndex + 1].x - this.x + 10;
+    y4 = this.game.entities[this.rockIndex + 1].y - this.y - 3;
+
     var distance = Math.sqrt(x * x + y * y);
     var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
     var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
-
-    if (distance < 80 || distance1 < 80 || distance2 < 150) {
+    var distance3 = Math.sqrt(x3 * x3 + y3 * y3);
+    var distance4 = Math.sqrt(x4 * x4 + y4 * y4);
+    
+    if (distance < 80 || distance1 < 80 || distance2 < 150 || distance3 < 30 || distance4 < 30) {
         this.explosion = true;
         if (this.add1) {
             // this.game.score += 200;//    this.game.entities[2].hpBar++;
