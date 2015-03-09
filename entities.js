@@ -1239,37 +1239,35 @@ NewFlash.prototype.update = function () {
     if (this.time > .2) {
         this.explosion = false;
 
-        if (this.rockIndex === 0) {
-
-            if (this.game.entities[3 + 3].alive) {
-                this.game.entities[3 + 3].hitPoint--;
-                if (this.game.entities[3 + 3].hitPoint <= 0) {
-                    this.game.score += 500;
-                    this.game.entities[3 + 3].alive = false;
-                    this.game.entities[3 + 3].explode = true;
-                    this.game.entities[4 + 3].alive = true;
-                    this.game.entities[4 + 3].y = -500;
-                }
-            }
-            if (this.game.entities[4 + 3].alive) {
-                this.game.entities[4 + 3].hitPoint--;
-                if (this.game.entities[4 + 3].hitPoint <= 0) {
-                    this.game.score += 1000;
-                    this.game.entities[4 + 3].alive = false;
-                    this.game.entities[4 + 3].explode = true;
-                    this.game.entities[5 + 3].alive = true;
-                    this.game.entities[5 + 3].y = -500;
-                }
-            }
-            if (this.game.entities[5 + 3].alive) {
-                this.game.entities[5 + 3].hitPoint--;
-                if (this.game.entities[5 + 3].hitPoint <= 0) {
-                    this.game.score += 2000;
-                    this.game.entities[5 + 3].alive = false;
-                    this.game.entities[5 + 3].explode = true;
-                }
+        if (this.game.entities[3 + 3].alive) {
+            this.game.entities[3 + 3].hitPoint--;
+            if (this.game.entities[3 + 3].hitPoint <= 0) {
+                this.game.score += 500;
+                this.game.entities[3 + 3].alive = false;
+                this.game.entities[3 + 3].explode = true;
+                this.game.entities[4 + 3].alive = true;
+                this.game.entities[4 + 3].y = -500;
             }
         }
+        if (this.game.entities[4 + 3].alive) {
+            this.game.entities[4 + 3].hitPoint--;
+            if (this.game.entities[4 + 3].hitPoint <= 0) {
+                this.game.score += 1000;
+                this.game.entities[4 + 3].alive = false;
+                this.game.entities[4 + 3].explode = true;
+                this.game.entities[5 + 3].alive = true;
+                this.game.entities[5 + 3].y = -500;
+            }
+        }
+        if (this.game.entities[5 + 3].alive) {
+            this.game.entities[5 + 3].hitPoint--;
+            if (this.game.entities[5 + 3].hitPoint <= 0) {
+                this.game.score += 2000;
+                this.game.entities[5 + 3].alive = false;
+                this.game.entities[5 + 3].explode = true;
+            }
+        }
+
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
         this.y = -100000; // -600;// skip down after explosion
         this.time = 0;
