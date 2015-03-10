@@ -1,11 +1,18 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // meteor "rocks"
-function Metero(game) {
+function Metero(game, type) {
+
+    this.type = type;
     this.animation = new RocksAnimation(ASSET_MANAGER.getAsset("./img/meteor.png"), 0, 0, 50, 50, .10, 56, true, true);
     this.radius = 50;
     var newX = Math.random() * 800;
     var newY = 0;
+    // this.distBetweenFlash = 0;
+    this.time = 0;
+    this.explosion = false;
+    this.switchSprite = false;
+
     Entity.call(this, game, newX, newY);
 }
 
@@ -13,24 +20,133 @@ Metero.prototype = new Entity();
 Metero.prototype.constructor = Metero;
 
 Metero.prototype.update = function () {
+    ////////////////
 
-    this.y += 1;
+    // flash Bullet Collision detect
+    var bottom = this.game.entities.length - 5;
+    var track = 0;
+    var distBetweenFlash = 10000; // initial any value > than 55
+    for (var i = bottom; i > this.game.entities.length - 5 - 6; i--) { // keep number 5 for tracking purpose
+        // impact detection - 1st flash bullet
+        var x = this.x - this.game.entities[i].x;
+        var y = this.y - this.game.entities[i].y;
+        distBetweenFlash = Math.sqrt(x * x + y * y);
+        if (distBetweenFlash < 55) {
+            track = i;
+            break;
+        }
+    }
 
-    if (this.y > 600) {
-        this.y = 0;
+
+    // impact on rocket
+    var x2 = this.x - this.game.entities[13].x;
+    var y2 = this.y - this.game.entities[13].y;
+    var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
+
+
+    // collision on maincraft
+    var x3 = this.x - this.game.entities[this.game.entities.length - 3].x;
+    var y3 = this.y - this.game.entities[this.game.entities.length - 3].y;
+    var distance3 = Math.sqrt(x3 * x3 + y3 * y3);
+
+    if ((distBetweenFlash < 55 || distance2 < 55 || distance3 < 55) && this.time == 0) { 
+        this.explosion = true;
+        if (distBetweenFlash < 55)
+            this.game.entities[track].explosion = true;
+        else if (distance2 < 55)
+            this.game.entities[13].explosion = true;
+        else if (distance3 < 55)
+            this.game.hp -= 5;
+
+        this.game.entities[6].hitPoint++;
+        this.game.entities[7].hitPoint++;
+        this.game.entities[8].hitPoint++;
+
+
+        if (this.add1) {
+            this.game.score += 5;
+            //    this.game.entities[2].hpBar++;
+            this.add1 = false;
+        }
+    }
+
+    if (this.explosion)
+        this.time += this.game.clockTick;// integer result this.time = 0 when console output;
+
+
+    if (this.time > .3) {
+        this.explosion = false;
+        // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
+        this.time = 0;
+        this.add1 = true;
+
+        if (this.type >= 0 && this.type <= 3) {
+            this.x = -150;
+
+            this.y = Math.random() * (600) - 150;
+        } else {
+            this.y = -150;
+
+            this.x = Math.random() * (800) + 150;
+        }
+
+    } else if (this.y > - 200 && !this.explosion) {
+        if (this.type % 2 === 0) {
+            this.y += 2;
+            this.x -= 1;
+        } else {
+            this.y += 2;
+            this.x += 1;
+        }
 
     }
-    this.x += 1;
-    if (this.x > 800) {
-        this.x = Math.random() * 800;
-        this.y = 0;
+
+
+
+    if (this.y > 600 || this.x > 800) {
+        if (this.type % 2 === 0 ) {
+            this.x = -150;
+
+            this.y = Math.random() * (600) - 150;
+        } else {
+            this.y = -150;
+
+            this.x = Math.random() * (800) + 150;
+        }
+
+        //this.x = Math.random() * 800;
+        //this.y = 0;
     }
+
+
+
+
     Entity.prototype.update.call(this);
 }
 
 Metero.prototype.draw = function (ctx) {
 
-    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+    if (this.explosion && !this.switchSprite) {
+        this.animation = new FireBallAnimation(ASSET_MANAGER.getAsset("./img/explosion2.png"), 0, 0, 65, 81, .05, 5, true, true);
+        this.switchSprite = true;
+        var snd = new Audio("./sounds/explosion.wav"); // buffers automatically when created
+        snd.play();
+
+    } else if (!this.explosion && this.switchSprite) {
+
+        this.animation = new RocksAnimation(ASSET_MANAGER.getAsset("./img/meteor.png"), 0, 0, 50, 50, .10, 56, true, true);
+        this.switchSprite = false;
+
+    }
+
+    this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0, 1, this.explosion, this.currentFrame);
+
+
+    //////////////
+    //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 0);
+
+
+    //this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
     Entity.prototype.draw.call(this);
 }
@@ -1211,18 +1327,18 @@ NewFlash.prototype.update = function () {
     y2 = this.game.entities[8].y - this.y + 100;
 
     // for rock 1
-    x3 = this.game.entities[this.rockIndex].x - this.x + 10;
-    y3 = this.game.entities[this.rockIndex].y - this.y - 3;
-    x4 = this.game.entities[this.rockIndex + 1].x - this.x + 10;
-    y4 = this.game.entities[this.rockIndex + 1].y - this.y - 3;
+    //x3 = this.game.entities[this.rockIndex].x - this.x + 10;
+    //y3 = this.game.entities[this.rockIndex].y - this.y - 3;
+    //x4 = this.game.entities[this.rockIndex + 1].x - this.x + 10;
+    //y4 = this.game.entities[this.rockIndex + 1].y - this.y - 3;
 
     var distance = Math.sqrt(x * x + y * y);
     var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
     var distance2 = Math.sqrt(x2 * x2 + y2 * y2);
-    var distance3 = Math.sqrt(x3 * x3 + y3 * y3);
-    var distance4 = Math.sqrt(x4 * x4 + y4 * y4);
+  //  var distance3 = Math.sqrt(x3 * x3 + y3 * y3);
+  //  var distance4 = Math.sqrt(x4 * x4 + y4 * y4);
     
-    if (distance < 80 || distance1 < 80 || distance2 < 150 || distance3 < 30 || distance4 < 30) {
+    if (distance < 80 || distance1 < 80 || distance2 < 150 ) {
         this.explosion = true;
         if (this.add1) {
             // this.game.score += 200;//    this.game.entities[2].hpBar++;
@@ -1763,7 +1879,7 @@ function SmallCraft(game, type) {
     this.locationY = r1;
     this.speedType3 = s;
     this.angleSpeed = .05;
-    this.distBetweenFlash = 0;
+   // this.distBetweenFlash = 0;
 
     Entity.call(this, game, r, -r1);
 }

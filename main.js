@@ -96,7 +96,12 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(fireBulletBig); //Blue smart bomb (FireBall)
     gameEngine.addEntity(rocket);
     gameEngine.addEntity(enemy);
-    
+    // adding more rocks
+    for (var i = 0; i < 8; i++) {
+        var rock = new Metero(gameEngine, i);
+        gameEngine.addEntity(rock);
+    }
+
     var rangeX = -12;
     for (var i = 0; i < 12; i++) { 
         var bossBullet = new BossBullet(gameEngine, rangeX);
