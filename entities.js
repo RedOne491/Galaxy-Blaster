@@ -440,12 +440,17 @@ function Boss(game, type) {
     this.firstFire = this.hitPoint * .67;
     this.secondFire = this.hitPoint * .33;
     this.onScreen = false;
+    this.levelUp = false;
 }
 
 //Boss.prototype = new Entity();
 //Boss.prototype.constructor = Boss;
 
 Boss.prototype.update = function () {
+	if (this.levelUp) {
+		this.game.level++;
+		this.levelUp = false;
+	}
     if (this.y > -250 && this.y < 600 && (this.type === 1 || this.type === 2)) this.onScreen = true;
     if (this.y > -400 && this.y < 600 && this.type === 3) this.onScreen = true;
     if (this.onScreen) console.log("On screen");
@@ -1167,7 +1172,7 @@ Rocket.prototype.update = function () {
     if (distance < 90) { // 30) {
         this.explosion = true;
         if (this.add1) {
-            this.game.score += 500;       //    this.game.entities[2].hpBar++;
+            this.game.score += 50;       //    this.game.entities[2].hpBar++;
             //    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
@@ -1199,28 +1204,56 @@ Rocket.prototype.update = function () {
     if (this.time > 1) {
         this.explosion = false;
         if (this.game.entities[3 + 3].alive) {
-            this.game.entities[3 + 3].hitPoint -= 3;
-            if (this.game.entities[3 + 3].hitPoint <= 0) {
+            this.game.entities[3 + 3].hitPoint-=10;
+            if (this.game.entities[3 + 3].hitPoint <= 0) { 
                 this.game.entities[3 + 3].alive = false;
                 this.game.entities[3 + 3].explode = true;
-                this.game.entities[4 + 3].alive = true;
-                this.game.entities[4 + 3].y = -500;
+                if (this.game.level == 1) {
+                    this.game.entities[5 + 3].alive = true;
+                    this.game.entities[5 + 3].y = -1000;
+                }  
+                if (this.game.level == 3) {
+                	this.game.entities[4 + 3].alive = true;
+                    this.game.entities[4 + 3].y = -1000;
+                    this.game.entities[4 + 3].hitPoint = 100; 
+                }  
             }
         }
         if (this.game.entities[4 + 3].alive) {
-            this.game.entities[4 + 3].hitPoint -= 3;
-            if (this.game.entities[4 + 3].hitPoint <= 0) {
+            this.game.entities[4 + 3].hitPoint-=10;
+            if (this.game.entities[4 + 3].hitPoint <= 0) { 
                 this.game.entities[4 + 3].alive = false;
                 this.game.entities[4 + 3].explode = true;
-                this.game.entities[5 + 3].alive = true;
-                this.game.entities[5 + 3].y = -500;
+                if (this.game.level == 2) {
+                    this.game.entities[5 + 3].alive = true;
+                    this.game.entities[5 + 3].y = -1000;
+                    this.game.entities[5 + 3].hitPoint = 100; 
+                }  
+                if (this.game.level == 3) {
+                	this.game.entities[5 + 3].alive = true;
+                    this.game.entities[5 + 3].y = -1000;
+                    this.game.entities[5 + 3].hitPoint = 100; 
+                }
             }
         }
         if (this.game.entities[5 + 3].alive) {
-            this.game.entities[5 + 3].hitPoint -= 3;
-            if (this.game.entities[5 + 3].hitPoint <= 0) {
+            this.game.entities[5 + 3].hitPoint-=10;
+            if (this.game.entities[5 + 3].hitPoint <= 0) { 
                 this.game.entities[5 + 3].alive = false;
                 this.game.entities[5 + 3].explode = true;
+                this.game.entities[5 + 3].levelUp = true;
+                if (this.game.level == 1) { 
+                    this.game.entities[4 + 3].alive = true;
+                    this.game.entities[4 + 3].y = -1000;
+                }
+                if (this.game.level == 2) { 
+                	this.game.entities[3 + 3].alive = true;
+                    this.game.entities[3 + 3].y = -1000;
+                    this.game.entities[3 + 3].hitPoint = 100;
+                }
+                if (this.game.level >= 3) {  
+                    this.game.winner = true;
+                }
             }
         }
         // this.x = this.game.entities[this.game.entities.length - 2].x + 56;
@@ -1341,7 +1374,7 @@ NewFlash.prototype.update = function () {
     if (distance < 80 || distance1 < 80 || distance2 < 150 ) {
         this.explosion = true;
         if (this.add1) {
-            // this.game.score += 200;//    this.game.entities[2].hpBar++;
+            this.game.score += 50;//    this.game.entities[2].hpBar++;
             this.add1 = false;
         }
         //this.done = false;
@@ -1357,30 +1390,55 @@ NewFlash.prototype.update = function () {
 
         if (this.game.entities[3 + 3].alive) {
             this.game.entities[3 + 3].hitPoint--;
-            if (this.game.entities[3 + 3].hitPoint <= 0) {
-                this.game.score += 500;
+            if (this.game.entities[3 + 3].hitPoint <= 0) { 
                 this.game.entities[3 + 3].alive = false;
                 this.game.entities[3 + 3].explode = true;
-                this.game.entities[4 + 3].alive = true;
-                this.game.entities[4 + 3].y = -500;
+                if (this.game.level == 1) {
+                    this.game.entities[5 + 3].alive = true;
+                    this.game.entities[5 + 3].y = -1000;
+                }  
+                if (this.game.level == 3) {
+                	this.game.entities[4 + 3].alive = true;
+                    this.game.entities[4 + 3].y = -1000;
+                    this.game.entities[4 + 3].hitPoint = 100; 
+                }  
             }
         }
         if (this.game.entities[4 + 3].alive) {
             this.game.entities[4 + 3].hitPoint--;
-            if (this.game.entities[4 + 3].hitPoint <= 0) {
-                this.game.score += 1000;
+            if (this.game.entities[4 + 3].hitPoint <= 0) { 
                 this.game.entities[4 + 3].alive = false;
                 this.game.entities[4 + 3].explode = true;
-                this.game.entities[5 + 3].alive = true;
-                this.game.entities[5 + 3].y = -500;
+                if (this.game.level == 2) {
+                    this.game.entities[5 + 3].alive = true;
+                    this.game.entities[5 + 3].y = -1000;
+                    this.game.entities[5 + 3].hitPoint = 100; 
+                }  
+                if (this.game.level == 3) {
+                	this.game.entities[5 + 3].alive = true;
+                    this.game.entities[5 + 3].y = -1000;
+                    this.game.entities[5 + 3].hitPoint = 100; 
+                }
             }
         }
         if (this.game.entities[5 + 3].alive) {
             this.game.entities[5 + 3].hitPoint--;
-            if (this.game.entities[5 + 3].hitPoint <= 0) {
-                this.game.score += 2000;
+            if (this.game.entities[5 + 3].hitPoint <= 0) { 
                 this.game.entities[5 + 3].alive = false;
                 this.game.entities[5 + 3].explode = true;
+                this.game.entities[5 + 3].levelUp = true;
+                if (this.game.level == 1) { 
+                    this.game.entities[4 + 3].alive = true;
+                    this.game.entities[4 + 3].y = -1000;
+                }
+                if (this.game.level == 2) {  
+                    this.game.entities[3 + 3].alive = true;
+                    this.game.entities[3 + 3].y = -1000;
+                    this.game.entities[3 + 3].hitPoint = 100;
+                }
+                if (this.game.level >= 3) {  
+                    this.game.winner = true;
+                }
             }
         }
 

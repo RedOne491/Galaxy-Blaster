@@ -49,6 +49,7 @@ function GameEngine() {
     this.hp = 100;
     this.spaceBar = false;
     this.dead = false;
+    this.winner = false;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -59,11 +60,11 @@ GameEngine.prototype.init = function (ctx) {
     this.timer = new Timer();
     console.log('game initialized');
 }
-GameEngine.prototype.nextlevel = function () {
-    if (this.level < 3) {
-        this.level++;
-    }
-}
+//GameEngine.prototype.nextlevel = function () {
+//    if (this.level < 3) {
+//        this.level++;
+//    }
+//}
 
 GameEngine.prototype.nextlive = function () {
     if (this.lives > 0) {
@@ -161,7 +162,7 @@ GameEngine.prototype.update = function () {
 }
 
 GameEngine.prototype.loop = function () {
-    if (this.hp > 0 && this.level < 4) {
+    if (this.hp > 0 && this.level < 5) {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
@@ -181,7 +182,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("press space to start new game!",210,225);
         this.dead = true;
     }
-    if (this.score >= 10000) {
+    if (this.score >= 100000 || this.winner) {
         this.draw();
         this.ctx.font='bold 100px Arial';
         this.ctx.fillStyle = "red";
@@ -195,15 +196,15 @@ GameEngine.prototype.loop = function () {
         this.lives = 3;
         this.entities[6].alive = true;
         this.entities[6].onScreen = false;
-        this.entities[6].hitPoint = 250;  
+        this.entities[6].hitPoint = 100;  
         this.entities[6].y = -500;
         this.entities[7].alive = false;  
         this.entities[7].onScreen = false;
-        this.entities[7].hitPoint = 250;    
+        this.entities[7].hitPoint = 100;    
         this.entities[7].y = 1000;
         this.entities[8].alive = false;   
         this.entities[8].onScreen = false;
-        this.entities[8].hitPoint = 350;   
+        this.entities[8].hitPoint = 100;   
         this.entities[8].y = 1000;
         this.dead = false;
         console.log('game re-initialized');
