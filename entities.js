@@ -80,7 +80,7 @@ Metero.prototype.update = function () {
         this.time = 0;
         this.add1 = true;
 
-        if (this.type >= 0 && this.type <= 3) {
+        if (this.type % 2 === 0) {
             this.x = -150;
 
             this.y = Math.random() * (600) - 150;
