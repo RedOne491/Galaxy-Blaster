@@ -91,7 +91,7 @@ Metero.prototype.update = function () {
         }
 
     } else if (this.y > - 200 && !this.explosion) {
-        if (this.type % 2 === 0) {
+        if (this.type >= 0 && this.type <= 3) {
             this.y += 2;
             this.x -= 1;
         } else {
