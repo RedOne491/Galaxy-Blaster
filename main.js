@@ -33,6 +33,14 @@ ASSET_MANAGER.queueDownload("./img/flashEffect.png");
 ASSET_MANAGER.queueDownload("./img/heart.png");
 ASSET_MANAGER.queueDownload("./img/point.png"); 
 ASSET_MANAGER.queueDownload("./img/smallBullet.png");
+ASSET_MANAGER.queueDownload("./img/level1.png");
+ASSET_MANAGER.queueDownload("./img/level2.png");
+ASSET_MANAGER.queueDownload("./img/level3.png");
+ASSET_MANAGER.queueDownload("./img/levels1.png");
+ASSET_MANAGER.queueDownload("./img/levels2.png");
+ASSET_MANAGER.queueDownload("./img/levels3.png");
+
+
 
 ASSET_MANAGER.downloadAll(function () {
     console.log("starting up da sheild");

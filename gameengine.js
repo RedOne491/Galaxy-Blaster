@@ -189,6 +189,7 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("Winner", 200,200);
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("Your Score is "+this.score,250,235);
+        this.dead = true;
     }
     if (this.spaceBar && this.dead) {
         this.hp = 100;
