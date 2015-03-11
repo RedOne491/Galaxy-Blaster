@@ -105,7 +105,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(rocket);
     gameEngine.addEntity(enemy);
     // adding more rocks
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 9; i++) {
         var rock = new Metero(gameEngine, i);
         gameEngine.addEntity(rock);
     }
@@ -117,20 +117,20 @@ ASSET_MANAGER.downloadAll(function () {
         gameEngine.addEntity(bossBullet);
     }
     // adding bullet for small enemy ships
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 7; i++) {
         var smallBullet = new SmallBullet(gameEngine, i, 0);
         rangeX += 0;
         gameEngine.addEntity(smallBullet);
     }
 
     // adding small enemy aircrafts
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 7; i++) {
         var smallCraft = new SmallCraft(gameEngine, i);
         gameEngine.addEntity(smallCraft);
     }
 
    // adding flash bullets
-    for (var i = 1; i < 10; i++) {
+    for (var i = 1; i < 7; i++) {
         var flashBullet = new NewFlash(gameEngine, i);
         gameEngine.addEntity(flashBullet);
     }
