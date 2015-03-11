@@ -208,6 +208,7 @@ GameEngine.prototype.loop = function () {
         this.entities[8].hitPoint = 100;   
         this.entities[8].y = 1000;
         this.dead = false;
+        this.level = 1;
         console.log('game re-initialized');
     }
     
