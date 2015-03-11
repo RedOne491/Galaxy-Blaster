@@ -568,10 +568,10 @@ Boss.prototype.draw = function (ctx) {
     this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 3, 1);
 
     if (this.hitPoint < this.firstFire && this.type != 3)
-        this.animDamaged1.drawFrame(this.game.clockTick, ctx, this.x + 100, this.y + 20, 16, 1);
+        this.animDamaged1.drawFrame(this.game.clockTick, ctx, this.x+43, this.y + 23, 16, 1.75);
 
-    if (this.hitPoint < this.secondFire && this.type != 3)
-        this.animDamaged2.drawFrame(this.game.clockTick, ctx, this.x, this.y, 16, 1);
+//    if (this.hitPoint < this.secondFire && this.type != 3)
+//        this.animDamaged2.drawFrame(this.game.clockTick, ctx, this.x, this.y, 16, 1);
 
     if (this.hitPoint < this.firstFire && this.type == 3)
         this.animDamaged1.drawFrame(this.game.clockTick, ctx, this.x + 200, this.y + 50, 16, 2.5);
