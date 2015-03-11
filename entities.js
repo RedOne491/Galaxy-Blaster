@@ -1038,7 +1038,12 @@ FireBall.prototype.update = function () {
     }
 
     /// bug : sometimes, there is an extra blue big bullet on top left screen after 2nd mini boss dead
-    if (!this.game.entities[6].alive && !this.game.entities[7].alive) this.game.entities[11].y = -800; // bug fix here: not firm yet, need more test
+    if (!this.game.entities[6].alive && !this.game.entities[7].alive) this.game.entities[11].y = -800; // bug fix here: not confirm yet, need more test
+    if (!this.game.entities[8].alive) {
+    	this.game.entities[12].y = -800; // bug fix here: not confirm yet, need more test
+    	this.type == 1;
+    }
+    if (this.game.entities[6].alive || this.game.entities[7].alive) this.type == 1;
     ///
     if (this.type === 2 && this.game.entities[5 + 3].alive) {
         var x = this.x - this.game.entities[this.game.entities.length - 3].x + 35;
@@ -1051,7 +1056,7 @@ FireBall.prototype.update = function () {
         if (distance < 50) {
             this.explosion = true;
             if (this.add1) {
-                this.game.hp -= 5 //  this.game.entities[3].hpBar += 0.4;
+                this.game.hp -= 20 //  this.game.entities[3].hpBar += 0.4;
                 this.add1 = false;
             }
             this.x -= 33; // set explosion point for bullet
@@ -1238,6 +1243,7 @@ Rocket.prototype.update = function () {
                 if (this.game.level == 1) {
                     this.game.entities[5 + 3].alive = true;
                     this.game.entities[5 + 3].y = -1000;
+                    this.game.entities[5 + 3].hitPoint = 100; 
                 }  
                 if (this.game.level == 3) {
                 	this.game.entities[4 + 3].alive = true;
@@ -1272,6 +1278,7 @@ Rocket.prototype.update = function () {
                 if (this.game.level == 1) { 
                     this.game.entities[4 + 3].alive = true;
                     this.game.entities[4 + 3].y = -1000;
+                    this.game.entities[4 + 3].hitPoint = 100; 
                 }
                 if (this.game.level == 2) { 
                 	this.game.entities[3 + 3].alive = true;
@@ -1423,6 +1430,7 @@ NewFlash.prototype.update = function () {
                 if (this.game.level == 1) {
                     this.game.entities[5 + 3].alive = true;
                     this.game.entities[5 + 3].y = -1000;
+                    this.game.entities[5 + 3].hitPoint = 100; 
                 }  
                 if (this.game.level == 3) {
                 	this.game.entities[4 + 3].alive = true;
@@ -1457,6 +1465,7 @@ NewFlash.prototype.update = function () {
                 if (this.game.level == 1) { 
                     this.game.entities[4 + 3].alive = true;
                     this.game.entities[4 + 3].y = -1000;
+                    this.game.entities[4 + 3].hitPoint = 100; 
                 }
                 if (this.game.level == 2) {  
                     this.game.entities[3 + 3].alive = true;
