@@ -1993,10 +1993,10 @@ SmallCraft.prototype.update = function () {
     //var y1 = this.y - this.game.entities[this.game.entities.length - 6].y;
     //var distance1 = Math.sqrt(x1 * x1 + y1 * y1);
     // flash Bullet Collision detect
-    var bottom = this.game.entities.length - 5;
+    /* var bottom = this.game.entities.length - 6;
     var track = 0;
     var distBetweenFlash = 10000; // initial any value > than 55
-    for (var i = bottom; i > this.game.entities.length - 5 - 6; i--) { // keep number 5 for tracking purpose
+    for (var i = bottom; i > this.game.entities.length - 6 - 6; i--) { // keep number 6 for tracking purpose
         // impact detection - 1st flash bullet
         var x = this.x - this.game.entities[i].x;
         var y = this.y - this.game.entities[i].y;
@@ -2005,7 +2005,20 @@ SmallCraft.prototype.update = function () {
             track = i;
             break;
         }
+    } */
+    var distBetweenFlash = 10000;
+    for (i = 0; i < this.game.entities.length; i++) { // look for flash bullets
+	if (this.game.entities[i] instanceof NewFlash) {
+		var x = this.x - this.game.entities[i].x;
+        	var y = this.y - this.game.entities[i].y;
+		distBetweenFlash = Math.sqrt(x * x + y * y);
+	        if (distBetweenFlash < 55) {
+	            track = i;
+	            break;
+	        }
+	}
     }
+    
 
 
     // impact on rocket
