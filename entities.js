@@ -1671,7 +1671,7 @@ BossBullet.prototype.update = function () {
     if (distance < 30) {
         this.explosion = true;
         if (this.add1) {
-            this.game.hp -= 10;//  this.game.entities[3].hpBar += 0.4;
+            this.game.hp -= 20;//  this.game.entities[3].hpBar += 0.4;
             this.add1 = false;
         }
 
@@ -2195,7 +2195,7 @@ SmallBullet.prototype.update = function () {
     if (distance < 30) {
         this.explosion = true;
         if (this.add1) {
-            this.game.hp -= 10;//  this.game.entities[3].hpBar += 0.4;
+            this.game.hp -= 20;//  this.game.entities[3].hpBar += 0.4;
             this.add1 = false;
         }
 
