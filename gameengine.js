@@ -189,8 +189,12 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("Winner", 200,200);
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("Your Score is "+this.score,250,235);
+        this.ctx.fillText("press space to start new game!",210,260);
         this.dead = true;
+        this.hp = 0;
+        this.lives = 0;
     }
+    
     if (this.spaceBar && this.dead) {
         this.hp = 100;
         this.score = 0;
@@ -209,6 +213,7 @@ GameEngine.prototype.loop = function () {
         this.entities[8].y = 1000;
         this.dead = false;
         this.level = 1;
+        this.winner = false;
         console.log('game re-initialized');
     }
     

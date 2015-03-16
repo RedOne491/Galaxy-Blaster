@@ -372,16 +372,19 @@ Score.prototype.update = function () {
 
 Score.prototype.draw = function (ctx) {
     if (this.game.level === 1 && this.count1 < 100) {
+	this.count3 = 0;
 	ctx.drawImage(ASSET_MANAGER.getAsset("./img/level1.png"), 90, 200);
 	ctx.drawImage(ASSET_MANAGER.getAsset("./img/levels1.png"), 20, 570);
 	this.count1++;
     }
     if (this.game.level === 2 && this.count2 < 100) {
+	this.count1 = 0;
 	ctx.drawImage(ASSET_MANAGER.getAsset("./img/level2.png"), 90, 200);
 	ctx.drawImage(ASSET_MANAGER.getAsset("./img/levels2.png"), 20,570);
 	this.count2++;
     }
     if (this.game.level === 3 && this.count3 < 100) {
+	this.count2 = 0;
 	ctx.drawImage(ASSET_MANAGER.getAsset("./img/level3.png"), 90, 200);
 	ctx.drawImage(ASSET_MANAGER.getAsset("./img/levels3.png"), 20, 570);
 	this.count3++;
