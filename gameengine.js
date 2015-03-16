@@ -46,10 +46,11 @@ function GameEngine() {
     this.lives = 3;
     this.flashShoot = null;
     this.score = 0;
+    this.extraLife = 1;
     this.hp = 100;
     this.spaceBar = false;
     this.dead = false;
-    this.winner = false;
+    this.winner = false; 
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -121,7 +122,7 @@ GameEngine.prototype.startInput = function () {
         //d--> 68
         //var key = e.keyCode ? e.keyCode : e.which;
 
-        console.log(e.keyCode);
+  //      console.log(e.keyCode);
         e.preventDefault();
     }, false);
 
@@ -181,7 +182,13 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("press space to start new game!",210,225);
         this.dead = true;
-    }
+    } 
+    console.log(Math.floor(this.score / 10000))
+    if (Math.floor(this.score / 10000) === this.extraLife) {
+    	this.lives++;
+    	this.extraLife++; 
+    } 
+    
     if (this.score >= 100000 || this.winner) {
         this.draw();
         this.ctx.font='bold 100px Arial';
@@ -190,62 +197,18 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("Your Score is "+this.score,250,235);
         this.ctx.fillText("press space to start new game!",210,260);
-        this.dead = true;
- //       this.hp = 0;
- //       this.lives = 0;
+        this.dead = true; 
     }
     
     if (this.spaceBar && this.winner) {
-        this.hp = 100;
-        this.score = 0;
-        this.lives = 3;
-        this.entities[6].alive = true;
-        this.entities[6].onScreen = false;
-        this.entities[6].hitPoint = 100;  
-        this.entities[6].y = -500;
-        this.entities[7].alive = false;  
-        this.entities[7].onScreen = false;
-        this.entities[7].hitPoint = 100;    
-        this.entities[7].y = 1000;
-        this.entities[8].alive = false;   
-        this.entities[8].onScreen = false;
-        this.entities[8].hitPoint = 100;   
-        this.entities[8].y = 1000;
-        this.dead = false;
-        this.level = 1;
-        this.winner = false;
         console.log('game re-initialized');
         setTimeout("location.reload(true);",20);
-    }
+    } 
     
     if (this.spaceBar && this.dead) {
-        this.hp = 100;
-        this.score = 0;
-        this.lives = 3;
-        this.entities[6].alive = true;
-        this.entities[6].onScreen = false;
-        this.entities[6].hitPoint = 100;  
-        this.entities[6].y = -500;
-        this.entities[7].alive = false;  
-        this.entities[7].onScreen = false;
-        this.entities[7].hitPoint = 100;    
-        this.entities[7].y = 1000;
-        this.entities[8].alive = false;   
-        this.entities[8].onScreen = false;
-        this.entities[8].hitPoint = 100;   
-        this.entities[8].y = 1000;
-        this.dead = false;
-        this.level = 1;
-        this.winner = false;
-        console.log('game re-initialized');
+    	console.log('game re-initialized');
+        setTimeout("location.reload(true);",20);
     }
-    
-   // this.space = null;
-    //this.right = null;
-   // this.left = null;
-   // this.down = null;
-  //  this.diagonal = null;
-   // this.shoot = null;
 }
 
 function Entity(game, x, y) {

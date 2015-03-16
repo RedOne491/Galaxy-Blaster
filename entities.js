@@ -482,8 +482,7 @@ Boss.prototype.update = function () {
 		this.levelUp = false;
 	}
     if (this.y > -250 && this.y < 600 && (this.type === 1 || this.type === 2)) this.onScreen = true;
-    if (this.y > -400 && this.y < 600 && this.type === 3) this.onScreen = true;
-    if (this.onScreen) console.log("On screen");
+    if (this.y > -400 && this.y < 600 && this.type === 3) this.onScreen = true; 
     if (!this.alive) this.onScreen = false;
     if (this.y < 0) this.y += 1;
     else if (this.alive) {
@@ -555,7 +554,7 @@ Boss.prototype.update = function () {
     }
     if (this.explode) {
         this.elapsedTime += this.game.clockTick;
-        console.log("time = " + this.elapsedTime);
+  //      console.log("time = " + this.elapsedTime);
         if (this.elapsedTime > 1.6) {
             this.y = 1000;
             this.explode = false;
