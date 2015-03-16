@@ -1,4 +1,4 @@
-// This game shell was happily copied from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
+ // This game shell was happily copied from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
 
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
@@ -191,8 +191,8 @@ GameEngine.prototype.loop = function () {
         this.ctx.fillText("Your Score is "+this.score,250,235);
         this.ctx.fillText("press space to start new game!",210,260);
         this.dead = true;
-        this.hp = 0;
-        this.lives = 0;
+ //       this.hp = 0;
+ //       this.lives = 0;
     }
     
     if (this.spaceBar && this.winner) {
