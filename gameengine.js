@@ -47,6 +47,7 @@ function GameEngine() {
     this.flashShoot = null;
     this.score = 0;
     this.extraLife = 1;
+    this.count = 0;
     this.hp = 100;
     this.spaceBar = false;
     this.dead = false;
@@ -182,11 +183,23 @@ GameEngine.prototype.loop = function () {
         this.ctx.font='bold 25px Arial';
         this.ctx.fillText("press space to start new game!",210,225);
         this.dead = true;
-    } 
-    console.log(Math.floor(this.score / 10000))
+    }  
+    
     if (Math.floor(this.score / 10000) === this.extraLife) {
-    	this.lives++;
-    	this.extraLife++; 
+    	if (this.count === 0) {
+        	this.lives++;    		
+    	}
+    	if (this.count > 0 && this.count < 100 ) {
+    		this.ctx.font='50px Arial';
+        	this.ctx.fillStyle = "red";
+        	this.ctx.fillText("Earned a bonus life!", 200, 300);
+    	} 
+    	this.count++; 
+    	
+    	if (this.count > 100) { 
+        	this.extraLife++; 
+        	this.count = 0;
+    	}
     } 
     
     if (this.score >= 100000 || this.winner) {
