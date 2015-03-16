@@ -195,6 +195,29 @@ GameEngine.prototype.loop = function () {
         this.lives = 0;
     }
     
+    if (this.spaceBar && this.winner) {
+        this.hp = 100;
+        this.score = 0;
+        this.lives = 3;
+        this.entities[6].alive = true;
+        this.entities[6].onScreen = false;
+        this.entities[6].hitPoint = 100;  
+        this.entities[6].y = -500;
+        this.entities[7].alive = false;  
+        this.entities[7].onScreen = false;
+        this.entities[7].hitPoint = 100;    
+        this.entities[7].y = 1000;
+        this.entities[8].alive = false;   
+        this.entities[8].onScreen = false;
+        this.entities[8].hitPoint = 100;   
+        this.entities[8].y = 1000;
+        this.dead = false;
+        this.level = 1;
+        this.winner = false;
+        console.log('game re-initialized');
+        setTimeout("location.reload(true);",20);
+    }
+    
     if (this.spaceBar && this.dead) {
         this.hp = 100;
         this.score = 0;
