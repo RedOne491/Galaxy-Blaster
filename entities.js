@@ -291,7 +291,7 @@ function Boss(game, type) {
         this.alive = true;
         this.hitPoint = 100;// 5;
         this.radius = 187 / 2;
-        Entity.call(this, game, Math.random() * 613, -1500);
+        Entity.call(this, game, Math.random() * 613, -750);
     }
     if (this.type === 2) {
         this.animation = new AnimationB(ASSET_MANAGER.getAsset(
@@ -763,7 +763,7 @@ FireBall.prototype.update = function () {
         if (distance < 50) {
             this.explosion = true;
             if (this.add1) {
-                this.game.hp -= 10 //  this.game.entities[3].hpBar += 0.4;
+                this.game.hp -= 40 //  this.game.entities[3].hpBar += 0.4;
                 this.add1 = false;
             }
             this.x -= 33; // set explosion point for bullet

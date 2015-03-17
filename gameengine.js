@@ -189,7 +189,7 @@ GameEngine.prototype.loop = function () {
         this.dead = true;
     }  
     
-    if (Math.floor(this.score * 2 / 10000) === this.extraLife) {
+    if (Math.floor(this.score / 10000) === this.extraLife) {
     	if (this.count === 0) {
         	this.lives++;    		
     	}
