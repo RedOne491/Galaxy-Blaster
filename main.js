@@ -74,10 +74,10 @@ ASSET_MANAGER.downloadAll(function () {
     var midBoss2 = new Boss(gameEngine, 2);
     var bigBoss = new Boss(gameEngine, 3);
     // rocks
-    var rock1 = new Metero(gameEngine);
-    var rock2 = new Metero(gameEngine);
-    var smallRock1 = new SmallMetero(gameEngine);
-    //var smallRock2 = new SmallMetero(gameEngine);
+    var rock1 = new Meteor(gameEngine);
+    var rock2 = new Meteor(gameEngine);
+    var smallRock1 = new SmallMeteor(gameEngine);
+    //var smallRock2 = new SmallMeteor(gameEngine);
     var fireBullet = new FireBall(gameEngine, 1);
     var fireBulletBig = new FireBall(gameEngine, 2);
     var rocket = new Rocket(gameEngine);
@@ -105,8 +105,8 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(rocket);
     gameEngine.addEntity(enemy);
     // adding more rocks
-    for (var i = 0; i < 9; i++) {
-        var rock = new Metero(gameEngine, i);
+    for (var i = 0; i < 30; i++) {
+        var rock = new Meteor(gameEngine, i);
         gameEngine.addEntity(rock);
     }
 
@@ -117,14 +117,14 @@ ASSET_MANAGER.downloadAll(function () {
         gameEngine.addEntity(bossBullet);
     }
     // adding bullet for small enemy ships
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < 40; i++) {
         var smallBullet = new SmallBullet(gameEngine, i, 0);
         rangeX += 0;
         gameEngine.addEntity(smallBullet);
     }
 
     // adding small enemy aircrafts
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < 40; i++) {
         var smallCraft = new SmallCraft(gameEngine, i);
         gameEngine.addEntity(smallCraft);
     }

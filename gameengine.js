@@ -52,6 +52,8 @@ function GameEngine() {
     this.spaceBar = false;
     this.dead = false;
     this.winner = false; 
+    this.bossOnScreen = false;
+    this.destroyBoss = false;
 }
 
 GameEngine.prototype.init = function (ctx) {
@@ -104,6 +106,7 @@ GameEngine.prototype.startInput = function () {
         if (key === 40) that.down = true;
         if (key === 83) that.shoot = true; 
         if (key === 68) that.flashShoot = true;
+        if (key === 88) that.destroyBoss = true;
         //var key = e.keyCode ? e.keyCode : e.which;
 
 //      console.log(e);
@@ -119,7 +122,8 @@ GameEngine.prototype.startInput = function () {
         if (key === 39) that.right = false;
         if (key === 40) that.down = false;
         if (key === 83) that.shoot = false;
-        if (key === 68)  that.flashShoot = false;
+        if (key === 68) that.flashShoot = false;
+        if (key === 88) that.destroyBoss = false;
         //d--> 68
         //var key = e.keyCode ? e.keyCode : e.which;
 
@@ -163,7 +167,7 @@ GameEngine.prototype.update = function () {
     
 }
 
-GameEngine.prototype.loop = function () {
+GameEngine.prototype.loop = function () { 
     if (this.hp > 0 && this.level < 5) {
         this.clockTick = this.timer.tick();
         this.update();
@@ -185,7 +189,7 @@ GameEngine.prototype.loop = function () {
         this.dead = true;
     }  
     
-    if (Math.floor(this.score / 10000) === this.extraLife) {
+    if (Math.floor(this.score * 2 / 10000) === this.extraLife) {
     	if (this.count === 0) {
         	this.lives++;    		
     	}
